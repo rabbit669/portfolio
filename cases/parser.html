@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Парсер каталога → Excel и HTML-отчёт — разбор проекта</title>
+<meta name="description" content="Обходит каталог магазина по всем категориям с пагинацией и отдаёт готовый Excel с пятью листами, HTML-отчёт с графиками и сырые данные в CSV и JSON.">
+<style>
+:root{--ink:#0f1729;--muted:#66748f;--line:#e3e9f2;--bg:#f7f9fc;--accent:#2f6fed;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+a{color:var(--accent)}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--line);background:#fff}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.brand{font-weight:700;text-decoration:none;color:var(--ink);white-space:nowrap}
+.crumbs{font-size:14px;color:var(--muted)}
+.crumbs a{color:var(--muted);text-decoration:none}
+.crumbs a:hover{color:var(--accent)}
+h1{font-size:clamp(25px,4vw,38px);line-height:1.16;margin:34px 0 10px;letter-spacing:-.02em}
+.tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.lead{font-size:18px;color:var(--muted);margin:0 0 22px;max-width:64ch}
+.cover{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;margin:22px 0}
+.cover img{display:block;width:100%;height:auto}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 6px}
+.btn{display:inline-block;padding:11px 18px;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;font-size:15px;font-weight:500}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn--solid{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn--solid:hover{color:#fff;opacity:.9}
+.stack{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 26px}
+.chip{font-size:12.5px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px;margin:20px 0}
+.card h2{margin:0 0 12px;font-size:19px}
+article h2{font-size:22px;margin:32px 0 10px;letter-spacing:-.01em}
+article h3{font-size:18px;margin:22px 0 8px}
+article p{margin:10px 0}
+article ul{margin:10px 0;padding-left:22px}
+article li{margin:5px 0}
+article code{background:#eef2f9;padding:2px 6px;border-radius:5px;font-size:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+pre.code{background:#0f1729;color:#e6edf3;padding:16px 18px;border-radius:10px;overflow-x:auto;font-size:13.5px;line-height:1.6;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap}
+.md-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px;background:#fff}
+.md-table th,.md-table td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.md-table th{background:#f1f5fb;font-weight:600}
+blockquote{margin:14px 0;padding:10px 16px;border-left:3px solid var(--accent);background:#fff;color:var(--muted)}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.shot{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{padding:8px 12px;font-size:13.5px;color:var(--muted);border-top:1px solid var(--line)}
+.tree{list-style:none;padding:0;margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px}
+.tree li{display:flex;justify-content:space-between;gap:12px;padding:4px 0;border-bottom:1px dashed var(--line)}
+.tree__dir{font-weight:700;color:var(--accent)}
+.tree__size{color:var(--muted);flex:none}
+details.artifact{margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+details.artifact summary{cursor:pointer;font-weight:600;color:var(--accent)}
+details.artifact pre{margin-top:12px}
+footer{border-top:1px solid var(--line);margin-top:44px;padding:26px 0 46px;color:var(--muted);font-size:14px}
+footer a{color:var(--muted)}
+@media(max-width:600px){.wrap{padding:0 16px}.card{padding:18px}header.top .wrap{height:56px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Портфолио</a>
+    <nav class="crumbs"><a href="../index.html">Все проекты</a> · разбор 01</nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <p class="tag" style="margin-top:30px">Сбор данных · Python</p>
+  <h1>Парсер каталога → Excel и HTML-отчёт</h1>
+  <p class="lead">Обходит каталог магазина по всем категориям с пагинацией и отдаёт готовый Excel с пятью листами, HTML-отчёт с графиками и сырые данные в CSV и JSON.</p>
+
+  <div class="cover"><img src="preview/parser.svg" alt="Парсер каталога → Excel и HTML-отчёт"></div>
+
+  <div class="actions">
+    <a class="btn btn--solid" href="rezultat/otchet.html" target="_blank" rel="noopener">Открыть готовый отчёт ↗</a>
+    <a class="btn" href="../code-parser.zip" download>Скачать код .zip</a>
+    <a class="btn" href="../index.html">← Все проекты</a>
+  </div>
+
+  <div class="stack"><span class="chip">Python</span><span class="chip">requests</span><span class="chip">BeautifulSoup</span><span class="chip">openpyxl</span><span class="chip">matplotlib</span></div>
+
+  
+
+  
+
+  <article><h2>Демо №1. Парсер каталога → Excel + HTML-отчёт</h2>
+<h3>Что это</h3>
+<p>Рабочий скрипт, который обходит каталог интернет-магазина с пагинацией <strong>по всем категориям</strong>, собирает структурированные данные и на выходе отдаёт:</p>
+<ul class="md-list">
+<li><strong>Excel-файл</strong> с 5 листами: все товары с автофильтром, сводка по категориям со встроенным графиком Excel, распределение по рейтингу, топ-15 дорогих и дешёвых, лист с метаданными сбора;</li>
+<li><strong>HTML-отчёт</strong> с диаграммами (гистограмма цен, средние цены по категориям, распределение по рейтингу) — самодостаточный файл, открывается в любом браузере без интернета;</li>
+<li><strong>CSV и JSON</strong> с сырыми данными — чтобы заказчик мог забрать данные в свою систему.</li>
+</ul>
+<h3>Что демонстрирует заказчику</h3>
+<table class="md-table"><tbody>
+<tr><th>Возможность</th><th>Как показано в проекте</th></tr>
+<tr><td>Обход пагинации</td><td>Скрипт сам находит кнопку «следующая страница» и идёт до конца категории</td></tr>
+<tr><td>Работа с категориями</td><td>Список категорий определяется автоматически из структуры сайта, а не хардкодом</td></tr>
+<tr><td>Устойчивость к сбоям</td><td>Повторы запросов при ошибках, паузы между запросами, обработка отсутствующих полей</td></tr>
+<tr><td>Чистота данных</td><td>Цены приводятся к числу, рейтинг из CSS-классов в число, наличие — в булево + количество</td></tr>
+<tr><td>Готовые отчёты</td><td>Не «таблица в консоли», а Excel и HTML, которые можно сразу отдать руководителю</td></tr>
+<tr><td>Соблюдение приличий</td><td>Задержки между запросами, понятный User-Agent, отсутствие нагрузки на сайт</td></tr>
+</tbody></table>
+<h3>Запуск</h3>
+<pre class="code"><code>
+cd &quot;/Users/macmaksim/Desktop/проекты/проект 3/портфолио/01_парсер_в_excel&quot;
+
+# полный обход (50 категорий, ~1000 товаров)
+../../.venv/bin/python run.py --categories 50 --delay 0.15
+
+# быстрая демонстрация
+../../.venv/bin/python run.py --categories 5
+</code></pre>
+<p>Результаты складываются в папку <code>результат/</code>, сырые данные — в <code>data/</code>.</p>
+<h3>Структура</h3>
+<pre class="code"><code>
+01_парсер_в_excel/
+├── parser.py     — обход сайта: категории, пагинация, разбор карточек, повторы при ошибках
+├── report.py     — Excel (5 листов + график) и HTML-отчёт с диаграммами
+├── run.py        — полный цикл одной командой
+├── data/         — сырые данные: raw.json, books.csv
+└── результат/    — каталог_товаров.xlsx, отчёт.html, графики PNG
+</code></pre>
+<h3>Технические детали</h3>
+<ul class="md-list">
+<li>Python 3.9, библиотеки: <code>requests</code>, <code>beautifulsoup4</code>, <code>lxml</code>, <code>openpyxl</code>, <code>pandas</code>, <code>matplotlib</code>.</li>
+<li>Источник данных для демонстрации — открытый тренировочный каталог <code>books.toscrape.com</code>, специально предназначенный для отработки парсинга (1000 товаров, 50 категорий, реальная пагинация).</li>
+<li>Скрипт легко перенастраивается на любой другой сайт: меняются только селекторы разбора карточки и логика пагинации.</li>
+</ul>
+<h3>Что заказчик получает при заказе похожей задачи</h3>
+<ul class="md-list">
+<li>Рабочий скрипт под его сайт (не демо), с настройками в отдельном конфиге.</li>
+<li>Выгрузку в удобном формате: Excel, Google Sheets, CSV, база данных.</li>
+<li>Возможность запуска по расписанию (например, обновление цен каждый день) с уведомлением в Telegram.</li>
+<li>Инструкцию по запуску и одну бесплатную доработку в течение 14 дней.</li>
+</ul>
+<h3>Типовые задачи, которые закрываются этим кодом</h3>
+<ul class="md-list">
+<li>Сбор цен и наличия конкурентов для мониторинга.</li>
+<li>Наполнение каталога: выгрузка ассортимента в Excel для загрузки в свою систему.</li>
+<li>Сбор контактов и объявлений с досок.</li>
+<li>Сбор отзывов и рейтингов товаров для аналитики.</li>
+<li>Регулярный сбор статистики с сохранением истории (что изменилось за неделю).</li>
+</ul></article>
+
+  <div class="card">
+    <h2>Файлы проекта</h2>
+    <ul class="tree"><li class="tree__dir"><span>.shot/</span></li><li><span>charts.py</span><span class="tree__size">6 КБ</span></li><li class="tree__dir"><span>data/</span></li><li><span>data/books.csv</span><span class="tree__size">26 КБ</span></li><li><span>data/raw.json</span><span class="tree__size">49 КБ</span></li><li><span>parser.py</span><span class="tree__size">9 КБ</span></li><li><span>README.md</span><span class="tree__size">5 КБ</span></li><li><span>report.py</span><span class="tree__size">18 КБ</span></li><li class="tree__dir"><span>rezultat/</span></li><li class="tree__dir"><span>rezultat/grafiki/</span></li><li><span>rezultat/grafiki/01_srednyaya_cena_po_kategoriyam.png</span><span class="tree__size">37 КБ</span></li><li><span>rezultat/grafiki/02_raspredelenie_cen.png</span><span class="tree__size">33 КБ</span></li><li><span>rezultat/grafiki/03_tovary_po_reytingu.png</span><span class="tree__size">33 КБ</span></li><li><span>rezultat/grafiki/04_top_dorogih_poziciy.png</span><span class="tree__size">94 КБ</span></li><li><span>rezultat/katalog_tovarov.xlsx</span><span class="tree__size">22 КБ</span></li><li><span>rezultat/otchet.html</span><span class="tree__size">12 КБ</span></li><li><span>run.py</span><span class="tree__size">2 КБ</span></li></ul>
+  </div>
+
+  <footer><a href="../index.html">← Вернуться к портфолио</a></footer>
+</div>
+
+</body>
+</html>

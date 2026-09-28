@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru" data-ashen="static">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ASHEN — каталог. Вещи как арт-объекты.</title>
+<meta name="description" content="Каталог ASHEN: все дропы, размеры, наличие. Фильтры по дропу, цвету и размеру.">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0a'/%3E%3Cpath d='M8 24L16 6l8 18h-4.4L16 15.6 12.4 24z' fill='%236B5B8A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=EB+Garamond:ital,wght@0,400;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body data-page="catalog">
+
+<div class="preloader" data-preloader>
+  <div class="preloader__inner">
+    <p class="preloader__line">ASHEN</p>
+    <p class="preloader__sub">каталог подгружается.</p>
+    <div class="preloader__bar"><span></span></div>
+    <p class="preloader__pct">000%</p>
+    <div class="preloader__boot"></div>
+  </div>
+</div>
+
+<div class="bg-field" aria-hidden="true"></div>
+<div class="scanlines" aria-hidden="true"></div>
+
+<header data-nav></header>
+
+<main>
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="section-head" style="margin-bottom:clamp(1rem,3vw,2rem)">
+        <div>
+          <p class="mono-label mono-label--hot" data-reveal>Каталог · склад системы</p>
+          <h1 class="t-lg" style="margin-top:.5rem" data-reveal data-catalog-title>ВСЕ ВЕЩИ ASHEN</h1>
+          <p class="serif measure" style="margin-top:.75rem" data-reveal data-catalog-lead>
+            Восемь дропов. Часть уже распродана — и не вернётся. Что осталось, видно честно: остатки по размерам живые.
+          </p>
+        </div>
+        <div class="stack stack--sm" style="min-width:min(100%,16rem)">
+          <label class="field">
+            <span class="field__label">Поиск</span>
+            <input class="input" type="search" placeholder="худи, карго, обсидиан…" data-search aria-label="Поиск по каталогу">
+          </label>
+          <label class="field">
+            <span class="field__label">Сортировка</span>
+            <select class="select" data-sort aria-label="Сортировка"></select>
+          </label>
+        </div>
+      </div>
+
+      <div class="catalog-layout">
+        <aside class="catalog-filters" data-filters aria-label="Фильтры"></aside>
+
+        <div>
+          <div class="row row--between row--wrap" style="margin-bottom:1rem">
+            <span class="mono-label" data-count>—</span>
+            <div class="row row--wrap" style="gap:.4rem" data-active-chips></div>
+          </div>
+          <div data-grid></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section section--line">
+    <div class="wrap panel panel--violet" data-reveal>
+      <div class="split" style="align-items:center">
+        <div class="stack">
+          <p class="mono-label mono-label--hot">Не нашёл размер?</p>
+          <h2 class="t-sm display">ВСТАНЬ В ЛИСТ ОЖИДАНИЯ НА ЭТУ ВЕЩЬ</h2>
+          <p class="serif measure-sm">
+            Мы не делаем «допечатки». Но если вещь вернётся в другом дропе — скажем первым.
+          </p>
+        </div>
+        <div class="row">
+          <a class="btn btn--solid" href="waitlist.html">В лист ожидания</a>
+          <a class="link-underline" href="community.html">Спросить в чате</a>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer data-footer></footer>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

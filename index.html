@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Проекты — веб-разработка и автоматизация</title>
+<meta name="description" content="Портфолио: интернет-магазин с оплатой, браузерная игра, парсер данных в Excel, телеграм-бот и ИИ-ассистент по базе знаний.">
+<meta property="og:title" content="Проекты — веб-разработка и автоматизация">
+<meta property="og:description" content="Магазин с оплатой, игра в браузере, парсер в Excel, телеграм-бот и ИИ-ассистент.">
+<style>
+:root{--ink:#0f1729;--muted:#66748f;--line:#e3e9f2;--bg:#f7f9fc;--accent:#2f6fed;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+a{color:var(--accent)}
+.wrap{max-width:1080px;margin:0 auto;padding:0 20px}
+.hero{padding:60px 0 30px;background:#fff;border-bottom:1px solid var(--line)}
+.hero h1{font-size:clamp(30px,5vw,50px);line-height:1.08;margin:0 0 14px;letter-spacing:-.03em}
+.hero p{font-size:18.5px;color:var(--muted);max-width:62ch;margin:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px;padding:32px 0 56px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .18s ease,box-shadow .18s ease}
+.card:hover{transform:translateY(-3px);box-shadow:0 14px 34px -18px rgba(15,23,41,.35)}
+.card__cover{aspect-ratio:16/10;overflow:hidden;background:#eef2f9;border-bottom:1px solid var(--line)}
+.card__cover img{width:100%;height:100%;object-fit:cover;display:block}
+.card__body{padding:18px 20px 20px;display:flex;flex-direction:column;gap:8px;flex:1}
+.kind{font-size:11.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.card h2{font-size:19px;margin:0;letter-spacing:-.01em}
+.card p{margin:0;color:var(--muted);font-size:15px}
+.stack{display:flex;flex-wrap:wrap;gap:5px;margin-top:2px}
+.chip{font-size:11.5px;padding:3px 9px;border:1px solid var(--line);border-radius:999px;color:var(--muted);background:#fbfcfe}
+.card__actions{margin-top:auto;padding-top:14px;display:flex;gap:8px;flex-wrap:wrap}
+.btn{display:inline-block;padding:9px 15px;border-radius:8px;border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;font-size:14.5px;font-weight:500}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn--solid{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn--solid:hover{color:#fff;opacity:.92}
+.note{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 22px;font-size:15px;color:var(--muted)}
+.note strong{color:var(--ink)}
+.note code{background:#eef2f9;padding:2px 6px;border-radius:5px;font-size:13.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--muted);font-size:14px;background:#fff}
+@media(max-width:600px){.hero{padding:42px 0 24px}.grid{gap:16px;padding:24px 0 42px}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="wrap">
+    <h1>Проекты</h1>
+    <p>Пять работ: два сайта, которые открываются прямо сейчас, и три разбора с кодом —
+       парсер данных, телеграм-бот и ИИ-ассистент по базе знаний.</p>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="note" style="margin-top:26px">
+    <strong>Магазин работает в демо-режиме.</strong> Каталог, корзина, кабинет и комьюнити
+    работают полностью. А вот оплата на этом хостинге недоступна — и это сделано специально:
+    платёж создаётся на сервере, иначе секретный ключ платёжной системы пришлось бы держать
+    в браузере, где его увидит любой. Чтобы пройти оплату целиком, проект запускают локально:
+    <code>node server/server.mjs</code>.
+  </div>
+
+  <div class="grid">
+    <article class="card">
+      <div class="card__cover"><img src="ashen/assets/img/og-cover.png" alt="ASHEN — стрит-вир магазин" loading="lazy"></div>
+      <div class="card__body">
+        <span class="kind">Интернет-магазин</span>
+        <h2>ASHEN — стрит-вир магазин</h2>
+        <p>Иммерсивная витрина: дропы, очередь, лист ожидания, личный кабинет, комьюнити. Плюс сервер платежей на ЮKassa с чеками 54-ФЗ и возвратами.</p>
+        <div class="stack"><span class="chip">JavaScript</span><span class="chip">Node.js</span><span class="chip">ЮKassa</span><span class="chip">CSS</span></div>
+        <div class="card__actions"><a class="btn btn--solid" href="ashen/index.html">Открыть магазин ↗</a>
+      <a class="btn" href="ashen/offer.html">Документы</a></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card__cover"><img src="game/thumb.svg" alt="Мини-ГТА — городская аркада" loading="lazy"></div>
+      <div class="card__body">
+        <span class="kind">Браузерная игра</span>
+        <h2>Мини-ГТА — городская аркада</h2>
+        <p>Аркада на canvas: город, трафик, погоня. Работает на телефоне, управление с сенсора, ставится на домашний экран. Без единой библиотеки.</p>
+        <div class="stack"><span class="chip">Canvas 2D</span><span class="chip">JavaScript</span><span class="chip">PWA</span></div>
+        <div class="card__actions"><a class="btn btn--solid" href="game/index.html">Играть ↗</a></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card__cover"><img src="cases/preview/parser.svg" alt="Парсер каталога → Excel и HTML-отчёт" loading="lazy"></div>
+      <div class="card__body">
+        <span class="kind">Сбор данных · Python</span>
+        <h2>Парсер каталога → Excel и HTML-отчёт</h2>
+        <p>Обходит каталог магазина по всем категориям с пагинацией и отдаёт готовый Excel с пятью листами, HTML-отчёт с графиками и сырые данные в CSV и JSON.</p>
+        <div class="stack"><span class="chip">Python</span><span class="chip">requests</span><span class="chip">BeautifulSoup</span><span class="chip">openpyxl</span><span class="chip">matplotlib</span></div>
+        <div class="card__actions"><a class="btn btn--solid" href="cases/parser.html">Разбор и код ↗</a>
+      <a class="btn" href="cases/parser/rezultat/otchet.html" target="_blank" rel="noopener">Готовый отчёт</a></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card__cover"><img src="cases/preview/bot.svg" alt="Телеграм-бот «Администратор»" loading="lazy"></div>
+      <div class="card__body">
+        <span class="kind">Автоматизация записи · Python</span>
+        <h2>Телеграм-бот «Администратор»</h2>
+        <p>Бот записи клиентов для салона или мастера: четыре шага вместо звонка, свободные окна, напоминания за сутки и за два часа, отчёты владельцу.</p>
+        <div class="stack"><span class="chip">Python</span><span class="chip">pyTelegramBotAPI</span><span class="chip">JSON-хранилище</span></div>
+        <div class="card__actions"><a class="btn btn--solid" href="cases/bot.html">Разбор и код ↗</a>
+      </div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card__cover"><img src="cases/preview/assistant.svg" alt="ИИ-ассистент по базе знаний" loading="lazy"></div>
+      <div class="card__body">
+        <span class="kind">Обработка текста · Python</span>
+        <h2>ИИ-ассистент по базе знаний</h2>
+        <p>Отвечает на вопросы клиентов только по документам компании и всегда показывает источники. Поиск BM25 написан вручную, без внешних библиотек и без интернета.</p>
+        <div class="stack"><span class="chip">Python</span><span class="chip">BM25</span><span class="chip">нормализация словоформ</span><span class="chip">LLM API</span></div>
+        <div class="card__actions"><a class="btn btn--solid" href="cases/assistant.html">Разбор и код ↗</a>
+      </div>
+      </div>
+    </article>
+  </div>
+</div>
+
+<footer>
+  <div class="wrap">
+    <p>HTML, CSS и JavaScript без фреймворков. Python-проекты — на стандартной библиотеке и нескольких пакетах.</p>
+  </div>
+</footer>
+
+</body>
+</html>

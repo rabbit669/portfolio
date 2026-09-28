@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0d1117">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Мини-ГТА">
+<title>Мини-ГТА — городская аркада</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="assets/icon-192.png">
+<link rel="apple-touch-icon" href="assets/icon-192.png">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<canvas id="game"></canvas>
+
+<div id="hud" class="hidden">
+  <div class="hud-row">
+    <div class="hud-left">
+      <div class="bar">
+        <div id="healthBar" class="bar-fill bar-health"></div>
+        <span class="bar-label">ЗДОРОВЬЕ</span>
+      </div>
+      <div id="armorWrap" class="bar hidden">
+        <div id="armorBar" class="bar-fill bar-armor"></div>
+        <span class="bar-label">БРОНЯ</span>
+      </div>
+      <div id="stars" class="stars"></div>
+    </div>
+    <div class="hud-right">
+      <div class="money">$<span id="money">200</span></div>
+      <div class="clock" id="clock">12:00</div>
+    </div>
+  </div>
+
+  <div id="weapon" class="weapon">
+    <span id="weaponName">Кулаки</span>
+    <span id="ammo" class="ammo hidden">—</span>
+  </div>
+
+  <div id="speedo" class="speedo hidden">
+    <span id="speedVal">0</span><small>км/ч</small>
+  </div>
+
+  <div id="toast" class="toast"></div>
+  <div id="hint" class="hint"></div>
+</div>
+
+<div id="mapWrap" class="hidden">
+  <canvas id="minimap" width="150" height="150"></canvas>
+</div>
+
+<div id="touch" class="hidden">
+  <div id="stick" class="stick">
+    <div id="stickKnob" class="stick-knob"></div>
+  </div>
+
+  <div class="buttons">
+    <div class="btn-col">
+      <button id="btnAction" class="tbtn tbtn-action">ДЕЙСТВИЕ</button>
+    </div>
+    <div class="btn-col">
+      <button id="btnFire" class="tbtn tbtn-fire">ОГОНЬ</button>
+      <button id="btnSprint" class="tbtn tbtn-small">БЕГ</button>
+      <button id="btnWeapon" class="tbtn tbtn-small">ОРУЖИЕ</button>
+    </div>
+  </div>
+</div>
+
+<button id="btnPause" class="pause-btn hidden" aria-label="Пауза">II</button>
+
+<div id="menu" class="overlay">
+  <div class="panel">
+    <h1 class="logo">МИНИ<span>-ГТА</span></h1>
+    <p class="tagline">Городская аркада с видом сверху</p>
+
+    <button id="btnPlay" class="btn btn-primary">ИГРАТЬ</button>
+    <button id="btnContinue" class="btn hidden">ПРОДОЛЖИТЬ</button>
+    <button id="btnHelp" class="btn">КАК ИГРАТЬ</button>
+
+    <div class="settings">
+      <label class="switch">
+        <input type="checkbox" id="optSound" checked>
+        <span>Звук</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="optTouch" checked>
+        <span>Экранное управление</span>
+      </label>
+      <label class="switch">
+        <input type="checkbox" id="optShake" checked>
+        <span>Тряска камеры</span>
+      </label>
+    </div>
+
+    <div id="saveInfo" class="save-info"></div>
+    <p class="credits">v0.1 · одиночный режим · работает без интернета</p>
+  </div>
+</div>
+
+<div id="help" class="overlay hidden">
+  <div class="panel panel-wide">
+    <h2>Как играть</h2>
+
+    <h3>Телефон</h3>
+    <p>Слева джойстик — идти. Кнопка <b>ДЕЙСТВИЕ</b> — сесть в машину или выйти. <b>ОГОНЬ</b> — стрелять. <b>БЕГ</b> — ускориться. <b>ОРУЖИЕ</b> — сменить ствол. За рулём джойстик поворачивает, а вместо бега и тормоза появляются <b>ГАЗ</b> и <b>ТОРМОЗ</b>.</p>
+
+    <h3>Клавиатура</h3>
+    <p><b>WASD</b> или стрелки — движение и руль, <b>SHIFT</b> — бег и газ, <b>ПРОБЕЛ</b> — тормоз и ручник, <b>E</b> и <b>ENTER</b> — сесть в машину, <b>ЛКМ</b> или <b>F</b> — выстрел, <b>1</b>–<b>4</b> — оружие, <b>ESC</b> — пауза.</p>
+
+    <h3>Что делать в городе</h3>
+    <p>Угоняйте машины, стреляйте, собирайте деньги — <span class="money-inline">$</span> — и держитесь подальше от полиции. Каждая звезда розыска делает копов злее: на первой вас просто преследуют, на пятой приезжают вооружённые машины. Если вас убили, вы теряете часть денег и появляетесь в больнице.</p>
+
+    <p class="hint-line">Совет: полиция не любит, когда угоняют машины у неё на виду. Угоняйте тихо, в переулках.</p>
+
+    <button id="btnHelpClose" class="btn btn-primary">ПОНЯТНО</button>
+  </div>
+</div>
+
+<div id="pause" class="overlay hidden">
+  <div class="panel">
+    <h2>Пауза</h2>
+    <div id="pauseStats" class="pause-stats"></div>
+    <button id="btnResume" class="btn btn-primary">ПРОДОЛЖИТЬ</button>
+    <button id="btnRestart" class="btn">НАЧАТЬ ЗАНОВО</button>
+    <button id="btnToMenu" class="btn">В МЕНЮ</button>
+  </div>
+</div>
+
+<div id="dead" class="overlay hidden">
+  <div class="panel">
+    <h2 class="dead-title">ВАС УСТРАНИЛИ</h2>
+    <div id="deadStats" class="pause-stats"></div>
+    <button id="btnRespawn" class="btn btn-primary">ВСТАТЬ НА НОГИ</button>
+  </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

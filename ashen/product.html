@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ru" data-ashen="static">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>ASHEN — вещь</title>
+<meta name="description" content="Вещь из системы ASHEN. Размеры, наличие, детали.">
+<meta name="theme-color" content="#0a0a0a">
+<meta name="color-scheme" content="dark">
+<meta property="og:title" content="ASHEN — вещь">
+<meta property="og:description" content="Вещь из системы ASHEN. Размеры, наличие, детали.">
+<meta property="og:image" content="assets/img/hero-drop.png">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%230a0a0a'/%3E%3Cpath d='M8 24L16 6l8 18h-4.4L16 15.6 12.4 24z' fill='%236B5B8A'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo+Black&family=EB+Garamond:ital,wght@0,400;1,400;1,500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="css/app.css">
+</head>
+<body data-page="product">
+
+<div class="preloader" data-preloader>
+  <div class="preloader__inner">
+    <p class="preloader__line">ASHEN</p>
+    <p class="preloader__sub">Вещь из системы ASHEN. Размеры, наличие, детали.</p>
+    <div class="preloader__bar"><span></span></div>
+    <p class="preloader__pct">000%</p>
+    <div class="preloader__boot"></div>
+  </div>
+</div>
+
+<div class="bg-field" aria-hidden="true"></div>
+<div class="scanlines" aria-hidden="true"></div>
+
+<header data-nav></header>
+
+<main>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <nav class="mono-label" style="margin-bottom:1.25rem" aria-label="Хлебные крошки">
+        <a href="index.html">Главная</a> · <a href="catalog.html">Каталог</a> ·
+        <span data-crumb>дроп</span>
+      </nav>
+      <div data-product></div>
+    </div>
+  </section>
+
+  <section class="section section--line">
+    <div class="wrap" data-from-drop></div>
+  </section>
+
+  <section class="section section--tight">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <p class="mono-label mono-label--hot">Свои · UGC</p>
+          <h2 class="t-sm display" style="margin-top:.4rem">КАК ЭТО НОСЯТ</h2>
+        </div>
+        <a class="link-underline" href="community.html#ugc">Прислать своё</a>
+      </div>
+      <div data-ugc-product></div>
+    </div>
+  </section>
+</main>
+
+<footer data-footer></footer>
+<script type="module" src="js/app.js"></script>
+</body>
+</html>

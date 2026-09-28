@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 750" width="1200" height="750">
+  <rect width="1200" height="750" fill="#0d1117"/>
+  <rect x="0" y="0" width="1200" height="8" fill="#2f6fed"/>
+  <text x="72" y="170" fill="#e6edf3" font-family="-apple-system,Segoe UI,Roboto,Arial" font-size="58" font-weight="700">Мини-ГТА</text>
+  <text x="72" y="230" fill="#8b949e" font-family="-apple-system,Segoe UI,Roboto,Arial" font-size="30">городская аркада в браузере</text>
+  <text x="72" y="340" fill="#e6edf3" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="28">&gt; canvas 2D, без библиотек</text>
+  <text x="72" y="392" fill="#e6edf3" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="28">&gt; трафик, погоня, сенсорное управление</text>
+  <text x="72" y="444" fill="#e6edf3" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="28">&gt; ставится на домашний экран</text>
+  <rect x="72" y="650" width="180" height="5" fill="#2f6fed" opacity="0.55"/>
+</svg>

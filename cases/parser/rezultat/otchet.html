@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<title>Отчёт по парсингу каталога</title>
+<style>
+  :root { --ink:#12203a; --muted:#6b7a99; --line:#e3e9f2; --accent:#2f6fed; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:#f5f7fb; color:var(--ink);
+         font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif; }
+  .wrap { max-width:1080px; margin:0 auto; padding:32px 20px 64px; }
+  header { background:linear-gradient(135deg,#12203a,#2f6fed); color:#fff;
+            border-radius:16px; padding:28px 32px; margin-bottom:24px; }
+  header h1 { margin:0 0 8px; font-size:26px; }
+  header p { margin:0; opacity:.85; font-size:14px; }
+  .cards { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; margin-bottom:24px; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:14px; padding:18px 20px; }
+  .card .label { font-size:13px; color:var(--muted); margin-bottom:6px; }
+  .card .value { font-size:24px; font-weight:700; }
+  section { background:#fff; border:1px solid var(--line); border-radius:14px;
+             padding:22px 24px; margin-bottom:20px; }
+  section h2 { margin:0 0 18px; font-size:18px; }
+  table { width:100%; border-collapse:collapse; font-size:14px; }
+  th { text-align:left; padding:10px 12px; background:#f2f5fb; color:var(--muted);
+        font-weight:600; font-size:13px; border-bottom:1px solid var(--line); }
+  td { padding:10px 12px; border-bottom:1px solid #f0f3f8; }
+  td.num, th.num { text-align:right; font-variant-numeric:tabular-nums; }
+  tr:hover td { background:#fafcff; }
+  footer { color:var(--muted); font-size:13px; text-align:center; margin-top:28px; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1>Отчёт по парсингу каталога</h1>
+    <p>Источник: books.toscrape.com · сформирован 28.09.2026 21:56 · обход с пагинацией по категориям</p>
+  </header>
+
+  <div class="cards">
+    <div class="card"><div class="label">Собрано товаров</div><div class="value">144</div></div>
+    <div class="card"><div class="label">Категорий</div><div class="value">4</div></div>
+    <div class="card"><div class="label">Средняя цена</div><div class="value">34.17 £</div></div>
+    <div class="card"><div class="label">Диапазон цен</div><div class="value">10.16 – 59.48 £</div></div>
+  </div>
+
+  <section>
+    <h2>Распределение цен</h2>
+    <svg viewBox="0 0 760 240" width="100%" xmlns="http://www.w3.org/2000/svg"><line x1="50" y1="200" x2="740" y2="200" stroke="#ccc"/><rect x="52.0" y="80" width="65.0" height="120" rx="3" fill="#12b886"/><text x="84.5" y="75" font-size="11" fill="#555" text-anchor="middle" font-family="Arial">14</text><text x="84.5" y="218" font-size="11" fill="#666" text-anchor="middle" font-family="Arial">10</text><rect x="121.0" y="46" width="65.0" height="154" rx="3" fill="#12b886"/><text x="153.5" y="41" font-size="11" fill="#555" text-anchor="middle" font-family="Arial">18</text><text x="153.5" y="218" font-size="11" fill="#666" text-anchor="middle" font-family="Arial">15</text><rect x="190.0" y="89" width="65.0" height="111" rx="3" fill="#12b886"/><text x="222.5" y="84" font-size="11" fill="#555" text-anchor="middle" font-family="Arial">13</text><text x="222.5" y="218" font-size="11" fill="#666" text-anchor="middle" font-family="Arial">20</text><rect x="259.0" y="55" width="65.0" height="145" rx="3" fill="#12b886"/><text x="291.5" y="50" font-size="11" fill="#555" text-anchor="middle" font-family="Arial">17</text><text x="291.5" y="218" font-size="11" fill="#666" text-anchor="middle" font-family="Arial">25</text><rect x="328.0" y="123" width="65.0" height="77" rx="3" fill="#12b886"/><text x="360.5" y="118" font-size="11" fill="#555" text-anchor="middle" font-family="Arial">9</text><text x="360.5" y="218" font-size="11" fill="#666" text-anchor="middle" font-family="Arial">30</text><rect x="397.0" y="20" width="65.0" height="180" rx="3" fill="#12b886"/><text x="429.5" y="15" font-size="11" fill="#555" text-anchor="middle" font-family="Arial">21</text><text x="429.5" y="218" font-size="11" fill="#666" text-anchor="middle" font-family="Arial">35</text><rect x="466.0" y="123" width="65.0" height="77" rx="3" fill="#12b886"/><text x="498.5" y="118" font-size="11" fill="#555" text-anchor="middle" font-family="Arial">9</text><text x="498.5" y="218" font-size="11" fill="#666" text-anchor="middle" font-family="Arial">40</text><rect x="535.0" y="55" width="65.0" height="145" rx="3" fill="#12b886"/><text x="567.5" y="50" font-size="11" fill="#555" text-anchor="middle" font-family="Arial">17</text><text x="567.5" y="218" font-size="11" fill="#666" text-anchor="middle" font-family="Arial">45</text><rect x="604.0" y="80" width="65.0" height="120" rx="3" fill="#12b886"/><text x="636.5" y="75" font-size="11" fill="#555" text-anchor="middle" font-family="Arial">14</text><text x="636.5" y="218" font-size="11" fill="#666" text-anchor="middle" font-family="Arial">50</text><rect x="673.0" y="98" width="65.0" height="102" rx="3" fill="#12b886"/><text x="705.5" y="93" font-size="11" fill="#555" text-anchor="middle" font-family="Arial">12</text><text x="705.5" y="218" font-size="11" fill="#666" text-anchor="middle" font-family="Arial">55</text><text x="50" y="16" font-size="13" fill="#333" font-family="Arial">Распределение цен, £</text></svg>
+  </section>
+
+  <section>
+    <h2>Средняя цена по категориям</h2>
+    <svg viewBox="0 0 760 164" width="100%" xmlns="http://www.w3.org/2000/svg"><text x="0" y="19" font-size="13" fill="#333" font-family="Arial">Travel</text><rect x="230" y="0" width="440" height="26" rx="4" fill="#2f6fed"/><text x="678" y="19" font-size="13" fill="#111" font-family="Arial" font-weight="bold">39.79 £</text><text x="0" y="55" font-size="13" fill="#333" font-family="Arial">Sequential Art</text><rect x="230" y="36" width="382" height="26" rx="4" fill="#2f6fed"/><text x="620" y="55" font-size="13" fill="#111" font-family="Arial" font-weight="bold">34.57 £</text><text x="0" y="91" font-size="13" fill="#333" font-family="Arial">Historical Fiction</text><rect x="230" y="72" width="371" height="26" rx="4" fill="#2f6fed"/><text x="609" y="91" font-size="13" fill="#111" font-family="Arial" font-weight="bold">33.64 £</text><text x="0" y="127" font-size="13" fill="#333" font-family="Arial">Mystery</text><rect x="230" y="108" width="350" height="26" rx="4" fill="#2f6fed"/><text x="588" y="127" font-size="13" fill="#111" font-family="Arial" font-weight="bold">31.72 £</text></svg>
+  </section>
+
+  <section>
+    <h2>Товары по рейтингу</h2>
+    <svg viewBox="0 0 760 200" width="100%" xmlns="http://www.w3.org/2000/svg"><text x="0" y="19" font-size="13" fill="#333" font-family="Arial">Рейтинг 1 — 27 шт.</text><rect x="230" y="0" width="371" height="26" rx="4" fill="#12b886"/><text x="609" y="19" font-size="13" fill="#111" font-family="Arial" font-weight="bold">27</text><text x="0" y="55" font-size="13" fill="#333" font-family="Arial">Рейтинг 2 — 29 шт.</text><rect x="230" y="36" width="398" height="26" rx="4" fill="#12b886"/><text x="636" y="55" font-size="13" fill="#111" font-family="Arial" font-weight="bold">29</text><text x="0" y="91" font-size="13" fill="#333" font-family="Arial">Рейтинг 3 — 32 шт.</text><rect x="230" y="72" width="440" height="26" rx="4" fill="#12b886"/><text x="678" y="91" font-size="13" fill="#111" font-family="Arial" font-weight="bold">32</text><text x="0" y="127" font-size="13" fill="#333" font-family="Arial">Рейтинг 4 — 30 шт.</text><rect x="230" y="108" width="412" height="26" rx="4" fill="#12b886"/><text x="650" y="127" font-size="13" fill="#111" font-family="Arial" font-weight="bold">30</text><text x="0" y="163" font-size="13" fill="#333" font-family="Arial">Рейтинг 5 — 26 шт.</text><rect x="230" y="144" width="357" height="26" rx="4" fill="#12b886"/><text x="595" y="163" font-size="13" fill="#111" font-family="Arial" font-weight="bold">26</text></svg>
+  </section>
+
+  <section>
+    <h2>Сводка по категориям</h2>
+    <table>
+      <thead><tr><th>Категория</th><th class="num">Товаров</th><th class="num">Средняя цена</th>
+      <th class="num">Мин.</th><th class="num">Макс.</th></tr></thead>
+      <tbody><tr><td>Travel</td><td>11</td><td class='num'>39.79 £</td><td class='num'>23.21</td><td class='num'>56.88</td></tr>
+<tr><td>Sequential Art</td><td>75</td><td class='num'>34.57 £</td><td class='num'>10.16</td><td class='num'>57.62</td></tr>
+<tr><td>Historical Fiction</td><td>26</td><td class='num'>33.64 £</td><td class='num'>16.62</td><td class='num'>55.55</td></tr>
+<tr><td>Mystery</td><td>32</td><td class='num'>31.72 £</td><td class='num'>10.69</td><td class='num'>59.48</td></tr></tbody>
+    </table>
+  </section>
+
+  <section>
+    <h2>ТОП-20 самых дорогих позиций</h2>
+    <table>
+      <thead><tr><th>Название</th><th>Категория</th><th class="num">Цена</th></tr></thead>
+      <tbody><tr><td>Boar Island (Anna Pigeon #19)</td><td>Mystery</td><td class='num'>59.48 £</td></tr>
+<tr><td>The No. 1 Ladies&#x27; Detective Agency (No. 1 Ladies&#x27; Detective Agency #1)</td><td>Mystery</td><td class='num'>57.70 £</td></tr>
+<tr><td>El Deafo</td><td>Sequential Art</td><td class='num'>57.62 £</td></tr>
+<tr><td>Ajin: Demi-Human, Volume 1 (Ajin: Demi-Human #1)</td><td>Sequential Art</td><td class='num'>57.06 £</td></tr>
+<tr><td>A Year in Provence (Provence #1)</td><td>Travel</td><td class='num'>56.88 £</td></tr>
+<tr><td>Giant Days, Vol. 1 (Giant Days #1-4)</td><td>Sequential Art</td><td class='num'>56.76 £</td></tr>
+<tr><td>The Past Never Ends</td><td>Mystery</td><td class='num'>56.50 £</td></tr>
+<tr><td>The Last Painting of Sara de Vos</td><td>Historical Fiction</td><td class='num'>55.55 £</td></tr>
+<tr><td>The Sandman, Vol. 3: Dream Country (The Sandman (volumes) #3)</td><td>Sequential Art</td><td class='num'>55.55 £</td></tr>
+<tr><td>A Flight of Arrows (The Pathfinders #2)</td><td>Historical Fiction</td><td class='num'>55.53 £</td></tr>
+<tr><td>The Sandman, Vol. 2: The Doll&#x27;s House (The Sandman (volumes) #2)</td><td>Sequential Art</td><td class='num'>54.81 £</td></tr>
+<tr><td>I am a Hero Omnibus Volume 1</td><td>Sequential Art</td><td class='num'>54.63 £</td></tr>
+<tr><td>Murder at the 42nd Street Library (Raymond Ambler #1)</td><td>Mystery</td><td class='num'>54.36 £</td></tr>
+<tr><td>The Last Mile (Amos Decker #2)</td><td>Mystery</td><td class='num'>54.21 £</td></tr>
+<tr><td>The Sandman, Vol. 1: Preludes and Nocturnes (The Sandman (volumes) #1)</td><td>Sequential Art</td><td class='num'>54.12 £</td></tr>
+<tr><td>1st to Die (Women&#x27;s Murder Club #1)</td><td>Mystery</td><td class='num'>53.98 £</td></tr>
+<tr><td>We Are Robin, Vol. 1: The Vigilante Business (We Are Robin #1)</td><td>Sequential Art</td><td class='num'>53.90 £</td></tr>
+<tr><td>Tipping the Velvet</td><td>Historical Fiction</td><td class='num'>53.74 £</td></tr>
+<tr><td>Death Note, Vol. 5: Whiteout (Death Note #5)</td><td>Sequential Art</td><td class='num'>52.41 £</td></tr>
+<tr><td>The Bachelor Girl&#x27;s Guide to Murder (Herringford and Watts Mysteries #</td><td>Mystery</td><td class='num'>52.30 £</td></tr></tbody>
+    </table>
+  </section>
+
+  <footer>Отчёт сформирован автоматически скриптом на Python. Данные получены из открытого источника
+  с соблюдением пауз между запросами.</footer>
+</div>
+</body>
+</html>
