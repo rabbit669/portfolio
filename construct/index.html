@@ -1,0 +1,803 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <!-- SEO-базис -->
+  <title>Construct — сайты и лендинги по вашему ТЗ за 3 дня</title>
+  <meta name="description" content="Студия Construct: разрабатываем лендинги и сайты для малого бизнеса строго по вашему ТЗ. Фиксированная цена, срок от 3 дней, поддержка 12 месяцев." />
+  <meta name="theme-color" content="#1d4ed8" />
+
+  <!-- Превью ссылки в мессенджерах и соцсетях, иконка вкладки -->
+  <meta property="og:type" content="website" />
+  <meta property="og:title" content="Construct — сайты и лендинги по вашему ТЗ за 3 дня" />
+  <meta property="og:description" content="Фиксированная цена и срок до старта работ. Лендинги и сайты для малого бизнеса." />
+  <meta property="og:locale" content="ru_RU" />
+  <!-- ВАЖНО: после публикации сайта замените относительный путь на абсолютный
+       (https://ваш-домен/og-image.png) — мессенджеры требуют полный адрес -->
+  <meta property="og:image" content="og-image.png" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
+  <meta property="og:image:alt" content="Construct — сайты и лендинги по вашему ТЗ за 3 дня" />
+  <meta name="twitter:card" content="summary_large_image" />
+
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+
+  <!--
+    Стили. Tailwind собран заранее в статический tailwind.css (см. tailwind.config.js
+    и tools/build-css.sh) — сборщиков нет, страница открывается двойным кликом
+    и работает без интернета. После правки классов запустите: bash tools/build-css.sh
+  -->
+  <link rel="stylesheet" href="tailwind.css" />
+
+  <!-- Собственные стили: переменные палитры, анимации, аккордеон, страховка -->
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body class="bg-white font-sans text-ink antialiased">
+
+  <!-- Ссылка для перехода к контенту с клавиатуры (доступность) -->
+  <a href="#main" class="skip-link">Перейти к содержанию</a>
+
+  <!-- ============================================================
+       HEADER: липкая навигация + мобильное меню
+       ============================================================ -->
+  <header id="site-header" class="fixed inset-x-0 top-0 z-50 border-b border-transparent bg-white/85 backdrop-blur transition-shadow duration-300">
+    <div class="mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:h-20 lg:px-8">
+
+      <!-- Логотип: имя студии задаётся здесь, меняется под заказчика -->
+      <a href="#hero" class="group flex items-center gap-2.5" aria-label="Construct — на главную">
+        <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-white shadow-soft">
+          <!-- Иконка «код» -->
+          <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="m8 6-5 6 5 6M16 6l5 6-5 6" />
+          </svg>
+        </span>
+        <span class="text-lg font-bold tracking-tight lg:text-xl">Construct</span>
+      </a>
+
+      <!-- Навигация: десктоп -->
+      <nav class="hidden items-center gap-1 lg:flex" aria-label="Основная навигация">
+        <a href="#solution" class="nav-link rounded-lg px-3.5 py-2 text-sm font-medium text-muted transition hover:bg-surface hover:text-ink">Что делаем</a>
+        <a href="#cases" class="nav-link rounded-lg px-3.5 py-2 text-sm font-medium text-muted transition hover:bg-surface hover:text-ink">Работы</a>
+        <a href="#reviews" class="nav-link rounded-lg px-3.5 py-2 text-sm font-medium text-muted transition hover:bg-surface hover:text-ink">Отзывы</a>
+        <a href="#contact" class="nav-link rounded-lg px-3.5 py-2 text-sm font-medium text-muted transition hover:bg-surface hover:text-ink">Контакты</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <!-- Телефон виден только на больших экранах -->
+        <a href="tel:+74951234567" class="hidden text-sm font-semibold text-ink transition hover:text-brand xl:block">+7&nbsp;(495)&nbsp;123&#8209;45&#8209;67</a>
+        <a href="#contact" class="hidden rounded-xl bg-brand px-5 py-2.5 text-sm font-semibold text-white shadow-soft transition hover:bg-brand-dark sm:inline-flex">Обсудить проект</a>
+
+        <!-- Кнопка мобильного меню -->
+        <button id="burger" type="button"
+                class="inline-flex h-10 w-10 items-center justify-center rounded-xl border border-line text-ink transition hover:bg-surface lg:hidden"
+                aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-menu">
+          <svg id="burger-open" class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M4 7h16M4 12h16M4 17h16" />
+          </svg>
+          <svg id="burger-close" class="hidden h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+            <path d="M6 6l12 12M18 6 6 18" />
+          </svg>
+        </button>
+      </div>
+    </div>
+
+    <!-- Мобильное меню -->
+    <div id="mobile-menu" class="mobile-menu border-t border-line bg-white lg:hidden">
+      <nav class="mx-auto flex max-w-7xl flex-col px-4 py-3 sm:px-6" aria-label="Мобильная навигация">
+        <a href="#solution" class="mobile-link border-b border-line py-3.5 text-base font-medium text-ink">Что делаем</a>
+        <a href="#cases" class="mobile-link border-b border-line py-3.5 text-base font-medium text-ink">Работы</a>
+        <a href="#reviews" class="mobile-link border-b border-line py-3.5 text-base font-medium text-ink">Отзывы</a>
+        <a href="#contact" class="mobile-link py-3.5 text-base font-medium text-ink">Контакты</a>
+        <div class="flex flex-col gap-3 py-4">
+          <a href="tel:+74951234567" class="text-base font-semibold text-ink">+7&nbsp;(495)&nbsp;123&#8209;45&#8209;67</a>
+          <a href="#contact" class="mobile-link rounded-xl bg-brand px-5 py-3 text-center text-sm font-semibold text-white">Обсудить проект</a>
+        </div>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main">
+
+    <!-- ============================================================
+         1. HERO: главный заголовок + подзаголовок + CTA
+         ============================================================ -->
+    <section id="hero" class="relative isolate overflow-hidden pt-28 pb-16 sm:pt-32 lg:pt-40 lg:pb-24">
+      <!-- Декоративный фон -->
+      <div class="pointer-events-none absolute inset-0 -z-10" aria-hidden="true">
+        <div class="absolute -top-32 right-[-10%] h-[26rem] w-[26rem] rounded-full bg-brand-soft blur-3xl"></div>
+        <div class="absolute bottom-0 left-[-12%] h-72 w-72 rounded-full bg-surface blur-3xl"></div>
+      </div>
+
+      <div class="mx-auto grid max-w-7xl items-center gap-14 px-4 sm:px-6 lg:grid-cols-[1.05fr_1fr] lg:gap-12 lg:px-8">
+
+        <!-- Левая колонка: оффер -->
+        <div class="reveal">
+          <span class="inline-flex items-center gap-2 rounded-full border border-line bg-white px-3.5 py-1.5 text-xs font-semibold text-brand shadow-card">
+            <span class="h-1.5 w-1.5 rounded-full bg-accent"></span>
+            Студия разработки сайтов · работаем с 2016 года
+          </span>
+
+          <h1 class="mt-6 text-4xl font-extrabold leading-[1.1] tracking-tight sm:text-5xl lg:text-[3.25rem] xl:text-[3.5rem]">
+            Ваш сайт по ТЗ —<br class="hidden sm:block" />
+            <span class="text-brand">за 3 дня</span> и по фиксированной цене
+          </h1>
+
+          <p class="mt-6 max-w-xl text-lg leading-relaxed text-muted">
+            Делаем лендинги и сайты для малого бизнеса строго по вашему техническому заданию.
+            Смету и срок фиксируем в договоре до старта — без «доработок за отдельную плату».
+          </p>
+
+          <!-- Кнопки призыва -->
+          <div class="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+            <a href="#contact" class="inline-flex items-center justify-center gap-2 rounded-xl bg-brand px-7 py-4 text-base font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-dark">
+              Обсудить проект
+              <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" />
+              </svg>
+            </a>
+            <a href="#cases" class="inline-flex items-center justify-center gap-2 rounded-xl border border-line bg-white px-7 py-4 text-base font-semibold text-ink transition hover:border-brand hover:text-brand">
+              Смотреть работы
+            </a>
+          </div>
+
+          <!-- Микро-доказательства под CTA -->
+          <ul class="mt-9 flex flex-wrap gap-x-7 gap-y-3 text-sm text-muted">
+            <li class="flex items-center gap-2">
+              <svg class="h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7" /></svg>
+              180+ сданных проектов
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7" /></svg>
+              Правки в течение 12 месяцев
+            </li>
+            <li class="flex items-center gap-2">
+              <svg class="h-4 w-4 shrink-0 text-brand" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7" /></svg>
+              Отдаём исходники
+            </li>
+          </ul>
+        </div>
+
+        <!-- Правая колонка: макет «браузера» (собран на CSS, без картинок) -->
+        <div class="reveal float-slow">
+          <div class="rounded-2xl border border-line bg-white shadow-soft">
+            <!-- Шапка окна браузера -->
+            <div class="flex items-center gap-3 border-b border-line bg-surface px-4 py-3">
+              <div class="flex gap-1.5" aria-hidden="true">
+                <span class="h-2.5 w-2.5 rounded-full bg-[#ff5f57]"></span>
+                <span class="h-2.5 w-2.5 rounded-full bg-[#febc2e]"></span>
+                <span class="h-2.5 w-2.5 rounded-full bg-[#28c840]"></span>
+              </div>
+              <div class="flex-1 truncate rounded-md bg-white px-3 py-1 text-xs text-muted ring-1 ring-line">vash-sait.ru — по ТЗ заказчика</div>
+            </div>
+
+            <!-- «Скелет» страницы, которая собирается -->
+            <div class="space-y-4 p-5 sm:p-6">
+              <div class="h-3 w-24 rounded-full bg-brand-soft"></div>
+              <div class="space-y-2">
+                <div class="h-5 w-4/5 rounded-md bg-slate-800"></div>
+                <div class="h-5 w-3/5 rounded-md bg-slate-200"></div>
+              </div>
+              <div class="flex gap-2 pt-1">
+                <div class="h-9 w-32 rounded-lg bg-brand"></div>
+                <div class="h-9 w-24 rounded-lg border border-line"></div>
+              </div>
+              <div class="grid grid-cols-3 gap-3 pt-3">
+                <div class="h-20 rounded-xl bg-surface ring-1 ring-line"></div>
+                <div class="h-20 rounded-xl bg-surface ring-1 ring-line"></div>
+                <div class="h-20 rounded-xl bg-surface ring-1 ring-line"></div>
+              </div>
+              <div class="space-y-2 pt-1">
+                <div class="h-2.5 w-full rounded-full bg-line"></div>
+                <div class="h-2.5 w-11/12 rounded-full bg-line"></div>
+                <div class="h-2.5 w-2/3 rounded-full bg-line"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Плавающая плашка «этапы» -->
+          <div class="mt-4 flex items-center gap-3 rounded-2xl border border-line bg-white p-4 shadow-card sm:-mt-6 sm:ml-8">
+            <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-soft text-brand">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" /><path d="M12 7v5l3 2" />
+              </svg>
+            </span>
+            <div>
+              <p class="text-sm font-semibold">Первый макет — через 24 часа</p>
+              <p class="text-xs text-muted">после согласования ТЗ и предоплаты</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ============================================================
+         2. ПРОБЛЕМА: 2–3 боли клиента (аккордеон «боль → что делаем»)
+         ============================================================ -->
+    <section id="problem" class="border-y border-line bg-surface py-20 lg:py-28">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <div class="reveal max-w-3xl">
+          <span class="text-sm font-bold uppercase tracking-widest text-brand">Проблема</span>
+          <h2 class="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+            Знакомо, если вы уже заказывали сайт?
+          </h2>
+          <p class="mt-4 text-lg text-muted">
+            Три ситуации, из-за которых малый бизнес годами остаётся без нормального сайта. Разверните пункт — покажем, как мы это закрываем.
+          </p>
+        </div>
+
+        <div class="mt-10 space-y-4">
+
+          <!-- Боль 1 -->
+          <div class="accordion-item reveal rounded-2xl border border-line bg-white shadow-card" data-accordion>
+            <h3>
+              <button type="button" id="pain-trigger-1" class="accordion-trigger flex w-full items-center gap-4 p-5 text-left sm:p-6" aria-expanded="false" aria-controls="pain-panel-1">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-sm font-bold text-brand">01</span>
+                <span class="flex-1 text-base font-bold sm:text-lg">Сайта нет — клиенты уходят к конкурентам</span>
+                <svg class="accordion-chevron h-5 w-5 shrink-0 text-muted transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+              </button>
+            </h3>
+            <section id="pain-panel-1" class="accordion-panel" aria-labelledby="pain-trigger-1">
+              <div>
+                <div class="px-5 pb-6 pl-[4.5rem] pr-6 text-muted sm:px-6 sm:pb-7 sm:pl-[5.5rem]">
+                  <p>Клиент ищет вас в поиске и на картах, а показать ему нечего: вместо сайта — страница в соцсети или старая визитка.</p>
+                  <p class="mt-3 rounded-xl bg-brand-soft p-4 text-ink">
+                    <strong class="font-semibold">Что делаем:</strong> собираем лендинг под одну услугу или корпоративный сайт под весь прайс — с формой заявки, картой и телефоном в шапке.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- Боль 2 -->
+          <div class="accordion-item reveal rounded-2xl border border-line bg-white shadow-card" data-accordion>
+            <h3>
+              <button type="button" id="pain-trigger-2" class="accordion-trigger flex w-full items-center gap-4 p-5 text-left sm:p-6" aria-expanded="false" aria-controls="pain-panel-2">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-sm font-bold text-brand">02</span>
+                <span class="flex-1 text-base font-bold sm:text-lg">Сайт есть, но заявок с него нет</span>
+                <svg class="accordion-chevron h-5 w-5 shrink-0 text-muted transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+              </button>
+            </h3>
+            <section id="pain-panel-2" class="accordion-panel" aria-labelledby="pain-trigger-2">
+              <div>
+                <div class="px-5 pb-6 pl-[4.5rem] pr-6 text-muted sm:px-6 sm:pb-7 sm:pl-[5.5rem]">
+                  <p>Красивый, но «немой»: непонятно, что продаёте, нет призыва к действию, на телефоне всё разъезжается, а грузится он дольше пяти секунд.</p>
+                  <p class="mt-3 rounded-xl bg-brand-soft p-4 text-ink">
+                    <strong class="font-semibold">Что делаем:</strong> переписываем структуру под логику покупателя, ставим понятный CTA в каждом блоке и выводим мобильную версию первой.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <!-- Боль 3 -->
+          <div class="accordion-item reveal rounded-2xl border border-line bg-white shadow-card" data-accordion>
+            <h3>
+              <button type="button" id="pain-trigger-3" class="accordion-trigger flex w-full items-center gap-4 p-5 text-left sm:p-6" aria-expanded="false" aria-controls="pain-panel-3">
+                <span class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-brand-soft text-sm font-bold text-brand">03</span>
+                <span class="flex-1 text-base font-bold sm:text-lg">Подрядчик тянет сроки и добирает деньги</span>
+                <svg class="accordion-chevron h-5 w-5 shrink-0 text-muted transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m6 9 6 6 6-6" /></svg>
+              </button>
+            </h3>
+            <section id="pain-panel-3" class="accordion-panel" aria-labelledby="pain-trigger-3">
+              <div>
+                <div class="px-5 pb-6 pl-[4.5rem] pr-6 text-muted sm:px-6 sm:pb-7 sm:pl-[5.5rem]">
+                  <p>Работы «на месяц» идут полгода, а смета по ходу вырастает вдвое: то контент не входил, то правки платные, то «это отдельная задача».</p>
+                  <p class="mt-3 rounded-xl bg-brand-soft p-4 text-ink">
+                    <strong class="font-semibold">Что делаем:</strong> фиксируем состав работ, цену и срок в договоре. Правки по согласованному ТЗ — бесплатно в течение года.
+                  </p>
+                </div>
+              </div>
+            </section>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         3. РЕШЕНИЕ: 4 пункта с иконками
+         ============================================================ -->
+    <section id="solution" class="scroll-mt-24 py-20 lg:py-28">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+        <div class="reveal mx-auto max-w-3xl text-center">
+          <span class="text-sm font-bold uppercase tracking-widest text-brand">Решение</span>
+          <h2 class="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+            Как мы работаем с вашим ТЗ
+          </h2>
+          <p class="mt-4 text-lg text-muted">
+            Вы присылаете задание в любом виде — файлом, таблицей или голосовым. Возвращаем готовый сайт с фиксированной сметой и понятным графиком.
+          </p>
+        </div>
+
+        <div class="mt-14 grid gap-6 sm:grid-cols-2 lg:gap-8">
+
+          <!-- Пункт 1 -->
+          <article class="reveal group rounded-2xl border border-line bg-white p-7 shadow-card transition hover:-translate-y-1 hover:border-brand">
+            <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-soft text-brand transition group-hover:bg-brand group-hover:text-white">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M14 3H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V8z" /><path d="M14 3v5h5M9 13h6M9 17h4" />
+              </svg>
+            </span>
+            <h3 class="mt-5 text-xl font-bold">Работаем строго по вашему ТЗ</h3>
+            <p class="mt-3 leading-relaxed text-muted">
+              Читаем задание, задаём уточняющие вопросы и письменно фиксируем состав страниц, блоков и функционала до начала работ.
+            </p>
+          </article>
+
+          <!-- Пункт 2 -->
+          <article class="reveal group rounded-2xl border border-line bg-white p-7 shadow-card transition hover:-translate-y-1 hover:border-brand">
+            <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-soft text-brand transition group-hover:bg-brand group-hover:text-white">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 3v18M7 8h7a3 3 0 0 1 0 6H7" />
+              </svg>
+            </span>
+            <h3 class="mt-5 text-xl font-bold">Фиксированная цена и срок</h3>
+            <p class="mt-3 leading-relaxed text-muted">
+              Смета и дедлайн закрепляются в договоре. Никаких «это не входило» — если объём не меняется, цена не меняется.
+            </p>
+          </article>
+
+          <!-- Пункт 3 -->
+          <article class="reveal group rounded-2xl border border-line bg-white p-7 shadow-card transition hover:-translate-y-1 hover:border-brand">
+            <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-soft text-brand transition group-hover:bg-brand group-hover:text-white">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <rect x="2" y="4" width="14" height="12" rx="2" /><path d="M18 8h2a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2h-6" /><path d="M6 20h6" />
+              </svg>
+            </span>
+            <h3 class="mt-5 text-xl font-bold">Дизайн под вашу нишу, а не шаблон</h3>
+            <p class="mt-3 leading-relaxed text-muted">
+              Блоки, тексты и акценты собираем под ваш продукт и клиента. Адаптив под телефон, планшет и десктоп — в базовой сборке.
+            </p>
+          </article>
+
+          <!-- Пункт 4 -->
+          <article class="reveal group rounded-2xl border border-line bg-white p-7 shadow-card transition hover:-translate-y-1 hover:border-brand">
+            <span class="flex h-12 w-12 items-center justify-center rounded-xl bg-brand-soft text-brand transition group-hover:bg-brand group-hover:text-white">
+              <svg class="h-6 w-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                <path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5z" /><path d="m9 12 2 2 4-4" />
+              </svg>
+            </span>
+            <h3 class="mt-5 text-xl font-bold">Исходники и 12 месяцев поддержки</h3>
+            <p class="mt-3 leading-relaxed text-muted">
+              Передаём все файлы и доступы — сайт полностью ваш. Год бесплатно правим контент и следим, чтобы всё работало.
+            </p>
+          </article>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         4. ДОКАЗАТЕЛЬСТВА: цифры + кейсы + отзывы
+         ============================================================ -->
+    <section id="proof" class="scroll-mt-24">
+
+      <!-- 4.1 Цифры -->
+      <div class="bg-ink py-16 text-white lg:py-20">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+          <div class="grid gap-8 text-center sm:grid-cols-2 lg:grid-cols-4">
+
+            <div class="reveal">
+              <p class="text-4xl font-extrabold tracking-tight text-white lg:text-5xl">
+                <span class="counter" data-count="184">0</span><span class="text-accent">+</span>
+              </p>
+              <p class="mt-2 text-sm text-white/70">сданных сайтов и лендингов</p>
+            </div>
+
+            <div class="reveal">
+              <p class="text-4xl font-extrabold tracking-tight text-white lg:text-5xl">
+                <span class="counter" data-count="3">0</span><span class="text-accent"> дня</span>
+              </p>
+              <p class="mt-2 text-sm text-white/70">средний срок сдачи лендинга</p>
+            </div>
+
+            <div class="reveal">
+              <p class="text-4xl font-extrabold tracking-tight text-white lg:text-5xl">
+                <span class="counter" data-count="97">0</span><span class="text-accent">%</span>
+              </p>
+              <p class="mt-2 text-sm text-white/70">клиентов приходят повторно</p>
+            </div>
+
+            <div class="reveal">
+              <p class="text-4xl font-extrabold tracking-tight text-white lg:text-5xl">
+                <span class="counter" data-count="9">0</span><span class="text-accent"> лет</span>
+              </p>
+              <p class="mt-2 text-sm text-white/70">на рынке веб-разработки</p>
+            </div>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- 4.2 Кейсы -->
+      <div id="cases" class="scroll-mt-24 bg-surface py-20 lg:py-28">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+          <div class="reveal flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <div class="max-w-2xl">
+              <span class="text-sm font-bold uppercase tracking-widest text-brand">Кейсы</span>
+              <h2 class="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">Что получилось у клиентов</h2>
+            </div>
+            <p class="text-muted sm:text-right">Цифры — из их отчётов за 3 месяца после запуска.</p>
+          </div>
+
+          <div class="mt-12 grid gap-6 lg:grid-cols-3">
+
+            <!-- Кейс 1 -->
+            <article class="reveal overflow-hidden rounded-2xl border border-line bg-white shadow-card">
+              <div class="flex h-40 items-center justify-center bg-gradient-to-br from-brand to-accent">
+                <span class="text-lg font-bold tracking-tight text-white/95">Стоматология «Белый ключ»</span>
+              </div>
+              <div class="p-6">
+                <div class="flex flex-wrap gap-2">
+                  <span class="rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">Лендинг</span>
+                  <span class="rounded-full bg-surface px-3 py-1 text-xs font-semibold text-muted ring-1 ring-line">4 дня</span>
+                </div>
+                <p class="mt-4 text-2xl font-extrabold text-brand">+64% заявок</p>
+                <p class="mt-2 text-sm leading-relaxed text-muted">
+                  Собрали страницу под одну услугу — имплантацию. Добавили запись онлайн и отзывы пациентов вместо общей презентации клиники.
+                </p>
+              </div>
+            </article>
+
+            <!-- Кейс 2 -->
+            <article class="reveal overflow-hidden rounded-2xl border border-line bg-white shadow-card">
+              <div class="flex h-40 items-center justify-center bg-gradient-to-br from-ink to-brand-dark">
+                <span class="text-lg font-bold tracking-tight text-white/95">Кофейня Roast &amp; Co</span>
+              </div>
+              <div class="p-6">
+                <div class="flex flex-wrap gap-2">
+                  <span class="rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">Сайт + меню</span>
+                  <span class="rounded-full bg-surface px-3 py-1 text-xs font-semibold text-muted ring-1 ring-line">6 дней</span>
+                </div>
+                <p class="mt-4 text-2xl font-extrabold text-brand">+38% заказов</p>
+                <p class="mt-2 text-sm leading-relaxed text-muted">
+                  Сделали сайт с меню, картой точек и блоком самовывоза. Мобильная версия грузится меньше секунды — гости заказывают со телефона.
+                </p>
+              </div>
+            </article>
+
+            <!-- Кейс 3 -->
+            <article class="reveal overflow-hidden rounded-2xl border border-line bg-white shadow-card">
+              <div class="flex h-40 items-center justify-center bg-gradient-to-br from-accent to-brand">
+                <span class="text-lg font-bold tracking-tight text-white/95">Строймастер</span>
+              </div>
+              <div class="p-6">
+                <div class="flex flex-wrap gap-2">
+                  <span class="rounded-full bg-brand-soft px-3 py-1 text-xs font-semibold text-brand">Корпоративный</span>
+                  <span class="rounded-full bg-surface px-3 py-1 text-xs font-semibold text-muted ring-1 ring-line">9 дней</span>
+                </div>
+                <p class="mt-4 text-2xl font-extrabold text-brand">214 заявок</p>
+                <p class="mt-2 text-sm leading-relaxed text-muted">
+                  Каталог услуг, калькулятор ремонта и выгрузка заявок в CRM. За квартал после запуска — 214 обращений с сайта.
+                </p>
+              </div>
+            </article>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- 4.3 Отзывы -->
+      <div id="reviews" class="scroll-mt-24 py-20 lg:py-28">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+          <div class="reveal mx-auto max-w-3xl text-center">
+            <span class="text-sm font-bold uppercase tracking-widest text-brand">Отзывы</span>
+            <h2 class="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">Что говорят клиенты</h2>
+          </div>
+
+          <div class="mt-12 grid gap-6 lg:grid-cols-3">
+
+            <!-- Отзыв 1 -->
+            <figure class="reveal flex h-full flex-col rounded-2xl border border-line bg-white p-7 shadow-card">
+              <div class="flex gap-1 text-[#f59e0b]" role="img" aria-label="Оценка 5 из 5">
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+              </div>
+              <blockquote class="mt-5 flex-1 leading-relaxed text-muted">
+                «Прислала ТЗ в виде таблицы из Excel — его приняли как есть, ничего не переписывали “под себя”. Смета не выросла ни на рубль, сдали на день раньше срока».
+              </blockquote>
+              <figcaption class="mt-6 flex items-center gap-3 border-t border-line pt-5">
+                <span class="flex h-11 w-11 items-center justify-center rounded-full bg-brand-soft font-bold text-brand">ИК</span>
+                <span>
+                  <span class="block text-sm font-bold">Ирина Ковалёва</span>
+                  <span class="block text-xs text-muted">Владелец салона красоты, Казань</span>
+                </span>
+              </figcaption>
+            </figure>
+
+            <!-- Отзыв 2 -->
+            <figure class="reveal flex h-full flex-col rounded-2xl border border-line bg-white p-7 shadow-card">
+              <div class="flex gap-1 text-[#f59e0b]" role="img" aria-label="Оценка 5 из 5">
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+              </div>
+              <blockquote class="mt-5 flex-1 leading-relaxed text-muted">
+                «До этого два подрядчика пропали на этапе правок. Здесь каждый пункт ТЗ отмечали в чек-листе, а после сдачи ещё полгода бесплатно меняли тексты».
+              </blockquote>
+              <figcaption class="mt-6 flex items-center gap-3 border-t border-line pt-5">
+                <span class="flex h-11 w-11 items-center justify-center rounded-full bg-brand-soft font-bold text-brand">ДС</span>
+                <span>
+                  <span class="block text-sm font-bold">Дмитрий Соколов</span>
+                  <span class="block text-xs text-muted">Директор «Строймастер»</span>
+                </span>
+              </figcaption>
+            </figure>
+
+            <!-- Отзыв 3 -->
+            <figure class="reveal flex h-full flex-col rounded-2xl border border-line bg-white p-7 shadow-card">
+              <div class="flex gap-1 text-[#f59e0b]" role="img" aria-label="Оценка 5 из 5">
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+                <svg class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"><path d="M10 1.5 12.6 7l6 .9-4.3 4.2 1 6-5.3-2.8L4.7 18l1-6L1.4 7.9 7.4 7z" /></svg>
+              </div>
+              <blockquote class="mt-5 flex-1 leading-relaxed text-muted">
+                «Нужен был лендинг к открытию точки — уложились в три дня, как и обещали. Через месяц попросил добавить калькулятор, сделали за сутки».
+              </blockquote>
+              <figcaption class="mt-6 flex items-center gap-3 border-t border-line pt-5">
+                <span class="flex h-11 w-11 items-center justify-center rounded-full bg-brand-soft font-bold text-brand">АМ</span>
+                <span>
+                  <span class="block text-sm font-bold">Артём Морозов</span>
+                  <span class="block text-xs text-muted">Основатель Roast &amp; Co</span>
+                </span>
+              </figcaption>
+            </figure>
+
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ============================================================
+         5. CTA: финальный призыв + форма обратной связи
+         ============================================================ -->
+    <section id="contact" class="scroll-mt-24 border-t border-line bg-surface py-20 lg:py-28">
+      <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid gap-12 lg:grid-cols-2 lg:gap-16">
+
+          <!-- Левая колонка: текст и контакты -->
+          <div class="reveal">
+            <span class="text-sm font-bold uppercase tracking-widest text-brand">Заявка</span>
+            <h2 class="mt-3 text-3xl font-extrabold leading-tight tracking-tight sm:text-4xl">
+              Пришлите ТЗ — посчитаем смету и срок
+            </h2>
+            <p class="mt-5 text-lg leading-relaxed text-muted">
+              Задание может быть в любом виде: документ, таблица, ссылка на чужой сайт или просто описание голосом.
+              Ответим в течение 2 часов в рабочее время и назовём точную стоимость.
+            </p>
+
+            <!-- Контакты -->
+            <ul class="mt-9 space-y-4">
+              <li class="flex items-center gap-4">
+                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-brand ring-1 ring-line">
+                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 16.9v3a2 2 0 0 1-2.2 2 19.8 19.8 0 0 1-8.6-3.1 19.5 19.5 0 0 1-6-6A19.8 19.8 0 0 1 2.1 4.2 2 2 0 0 1 4.1 2h3a2 2 0 0 1 2 1.7c.1 1 .4 1.9.7 2.8a2 2 0 0 1-.5 2.1L8.1 9.9a16 16 0 0 0 6 6l1.3-1.2a2 2 0 0 1 2.1-.5c.9.3 1.8.6 2.8.7a2 2 0 0 1 1.7 2z" /></svg>
+                </span>
+                <span>
+                  <span class="block text-xs uppercase tracking-wider text-muted">Телефон</span>
+                  <a href="tel:+74951234567" class="text-base font-semibold transition hover:text-brand">+7&nbsp;(495)&nbsp;123&#8209;45&#8209;67</a>
+                </span>
+              </li>
+              <li class="flex items-center gap-4">
+                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-brand ring-1 ring-line">
+                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2" /><path d="m2 7 10 6 10-6" /></svg>
+                </span>
+                <span>
+                  <span class="block text-xs uppercase tracking-wider text-muted">E-mail</span>
+                  <a href="mailto:hello@construct.ru" class="text-base font-semibold transition hover:text-brand">hello@construct.ru</a>
+                </span>
+              </li>
+              <li class="flex items-center gap-4">
+                <span class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-white text-brand ring-1 ring-line">
+                  <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 3 3 10.5l6 2.3L11.5 21 21 3z" /><path d="m9 12.8 8-6.3" /></svg>
+                </span>
+                <span>
+                  <span class="block text-xs uppercase tracking-wider text-muted">Мессенджеры</span>
+                  <span class="text-base font-semibold">Telegram · WhatsApp</span>
+                </span>
+              </li>
+            </ul>
+
+            <p class="mt-8 rounded-2xl border border-line bg-white p-5 text-sm text-muted">
+              <strong class="font-semibold text-ink">Бесплатно:</strong> разберём ваше ТЗ, укажем слабые места и предложим структуру страницы — даже если работать с нами не станете.
+            </p>
+          </div>
+
+          <!-- Правая колонка: форма -->
+          <div class="reveal">
+            <div class="rounded-2xl border border-line bg-white p-6 shadow-soft sm:p-8">
+
+              <!-- Форма заявки. Отправка настраивается в script.js (LEAD_CONFIG):
+                   пусто — демо-режим, заполнено — заявки уходят в Telegram или на вебхук -->
+              <form id="lead-form" novalidate>
+
+                <!-- Ловушка для спам-ботов: поле скрыто, люди его не видят и не заполняют -->
+                <div class="hidden" aria-hidden="true">
+                  <label for="company">Не заполняйте это поле</label>
+                  <input id="company" name="company" type="text" tabindex="-1" autocomplete="off" />
+                </div>
+
+                <div class="grid gap-5 sm:grid-cols-2">
+
+                  <div class="sm:col-span-1">
+                    <label for="name" class="mb-2 block text-sm font-semibold">Имя <span class="text-brand">*</span></label>
+                    <input id="name" name="name" type="text" autocomplete="name" required placeholder="Как к вам обращаться"
+                           class="w-full rounded-xl border border-line bg-white px-4 py-3 text-base outline-none transition placeholder:text-slate-400 focus:border-brand focus:ring-2 focus:ring-brand-ring" />
+                    <p class="field-error mt-1.5 hidden text-sm text-red-600" data-error-for="name">Укажите имя</p>
+                  </div>
+
+                  <div class="sm:col-span-1">
+                    <label for="phone" class="mb-2 block text-sm font-semibold">Телефон <span class="text-brand">*</span></label>
+                    <input id="phone" name="phone" type="tel" autocomplete="tel" required placeholder="+7 (___) ___-__-__"
+                           class="w-full rounded-xl border border-line bg-white px-4 py-3 text-base outline-none transition placeholder:text-slate-400 focus:border-brand focus:ring-2 focus:ring-brand-ring" />
+                    <p class="field-error mt-1.5 hidden text-sm text-red-600" data-error-for="phone">Укажите телефон для связи</p>
+                  </div>
+
+                  <div class="sm:col-span-1">
+                    <label for="email" class="mb-2 block text-sm font-semibold">E-mail</label>
+                    <input id="email" name="email" type="email" autocomplete="email" placeholder="you@company.ru"
+                           class="w-full rounded-xl border border-line bg-white px-4 py-3 text-base outline-none transition placeholder:text-slate-400 focus:border-brand focus:ring-2 focus:ring-brand-ring" />
+                    <p class="field-error mt-1.5 hidden text-sm text-red-600" data-error-for="email">Проверьте формат e-mail</p>
+                  </div>
+
+                  <div class="sm:col-span-1">
+                    <label for="project" class="mb-2 block text-sm font-semibold">Тип проекта</label>
+                    <select id="project" name="project"
+                            class="w-full rounded-xl border border-line bg-white px-4 py-3 text-base outline-none transition focus:border-brand focus:ring-2 focus:ring-brand-ring">
+                      <option value="landing">Лендинг (одностраничник)</option>
+                      <option value="corporate">Корпоративный сайт</option>
+                      <option value="shop">Интернет-магазин</option>
+                      <option value="other">Другое / пока не решил</option>
+                    </select>
+                  </div>
+
+                  <div class="sm:col-span-2">
+                    <label for="task" class="mb-2 block text-sm font-semibold">Кратко о задаче</label>
+                    <textarea id="task" name="task" rows="4" placeholder="Ниша, сколько страниц нужно, есть ли готовое ТЗ и тексты, желаемый срок"
+                              class="w-full resize-none rounded-xl border border-line bg-white px-4 py-3 text-base outline-none transition placeholder:text-slate-400 focus:border-brand focus:ring-2 focus:ring-brand-ring"></textarea>
+                  </div>
+                </div>
+
+                <!-- Согласие на обработку данных -->
+                <div class="mt-5">
+                  <label class="flex cursor-pointer items-start gap-3 text-sm text-muted">
+                    <input id="consent" name="consent" type="checkbox" required class="mt-0.5 h-5 w-5 shrink-0 rounded border-line text-brand focus:ring-2 focus:ring-brand-ring" />
+                    <span>Согласен на <a href="privacy.html" class="font-semibold text-brand underline transition hover:text-brand-dark">обработку персональных данных</a> и получение ответа по заявке.</span>
+                  </label>
+                  <p class="field-error mt-1.5 hidden text-sm text-red-600" data-error-for="consent">Без согласия мы не сможем ответить</p>
+                </div>
+
+                <button type="submit"
+                        class="mt-6 inline-flex w-full items-center justify-center gap-2 rounded-xl bg-brand px-7 py-4 text-base font-semibold text-white shadow-soft transition hover:-translate-y-0.5 hover:bg-brand-dark">
+                  Отправить заявку
+                  <svg class="h-4 w-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6" /></svg>
+                </button>
+
+                <!-- Показывается, если отправить не удалось: клиент не должен потеряться -->
+                <p id="form-error" class="mt-4 hidden rounded-xl border border-red-200 bg-red-50 p-4 text-sm text-red-700" role="alert">
+                  Не получилось отправить заявку — похоже, пропала связь.
+                  Позвоните нам: <a href="tel:+74951234567" class="font-semibold underline">+7&nbsp;(495)&nbsp;123&#8209;45&#8209;67</a>
+                  или напишите на <a href="mailto:hello@construct.ru" class="font-semibold underline">hello@construct.ru</a>.
+                </p>
+
+                <p class="mt-4 text-center text-xs text-muted">
+                  Никакого спама и звонков «просто узнать». Ответ — по делу, в течение 2 часов.
+                </p>
+              </form>
+
+              <!-- Сообщение об успехе (показывается скриптом вместо формы) -->
+              <div id="form-success" class="hidden text-center" role="status" aria-live="polite">
+                <span class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-brand-soft text-brand">
+                  <svg class="h-8 w-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m5 13 4 4L19 7" /></svg>
+                </span>
+                <h3 class="mt-5 text-2xl font-extrabold">Спасибо!</h3>
+                <p class="mt-3 text-muted">
+                  Заявка принята. Свяжемся с вами в течение 2 часов в рабочее время и пришлём смету по вашему ТЗ.
+                </p>
+                <button id="form-reset" type="button" class="mt-6 rounded-xl border border-line px-6 py-3 text-sm font-semibold text-ink transition hover:border-brand hover:text-brand">
+                  Отправить ещё одну заявку
+                </button>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============================================================
+       FOOTER: контакты и ссылки
+       ============================================================ -->
+  <footer class="border-t border-line bg-white pt-16 pb-8">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+
+      <div class="grid gap-10 lg:grid-cols-4">
+
+        <!-- О студии -->
+        <div class="lg:col-span-1">
+          <a href="#hero" class="flex items-center gap-2.5" aria-label="Construct — наверх">
+            <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-brand text-white">
+              <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m8 6-5 6 5 6M16 6l5 6-5 6" /></svg>
+            </span>
+            <span class="text-lg font-bold tracking-tight">Construct</span>
+          </a>
+          <p class="mt-4 text-sm leading-relaxed text-muted">
+            Студия разработки сайтов и одностраничников на заказ. Работаем по вашему ТЗ, с фиксированной ценой и сроком.
+          </p>
+        </div>
+
+        <!-- Навигация -->
+        <nav aria-label="Ссылки в футере">
+          <h3 class="text-sm font-bold uppercase tracking-wider text-ink">Разделы</h3>
+          <ul class="mt-4 space-y-2.5 text-sm text-muted">
+            <li><a href="#solution" class="transition hover:text-brand">Что делаем</a></li>
+            <li><a href="#cases" class="transition hover:text-brand">Работы</a></li>
+            <li><a href="#reviews" class="transition hover:text-brand">Отзывы</a></li>
+            <li><a href="#contact" class="transition hover:text-brand">Оставить заявку</a></li>
+          </ul>
+        </nav>
+
+        <!-- Услуги -->
+        <div>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-ink">Услуги</h3>
+          <ul class="mt-4 space-y-2.5 text-sm text-muted">
+            <li>Лендинг под одну услугу</li>
+            <li>Корпоративный сайт</li>
+            <li>Интернет-магазин</li>
+            <li>Доработка и поддержка</li>
+          </ul>
+        </div>
+
+        <!-- Контакты -->
+        <div>
+          <h3 class="text-sm font-bold uppercase tracking-wider text-ink">Контакты</h3>
+          <ul class="mt-4 space-y-2.5 text-sm text-muted">
+            <li><a href="tel:+74951234567" class="font-semibold text-ink transition hover:text-brand">+7&nbsp;(495)&nbsp;123&#8209;45&#8209;67</a></li>
+            <li><a href="mailto:hello@construct.ru" class="transition hover:text-brand">hello@construct.ru</a></li>
+            <li>Telegram · WhatsApp</li>
+            <li>Пн–Пт, 10:00–19:00 (МСК)</li>
+          </ul>
+        </div>
+
+      </div>
+
+      <!-- Нижняя полоса -->
+      <div class="mt-12 flex flex-col gap-3 border-t border-line pt-6 text-sm text-muted sm:flex-row sm:items-center sm:justify-between">
+        <p>© <span id="year">2025</span> Construct. Все права защищены.</p>
+        <p>
+          <a href="privacy.html" class="transition hover:text-brand">Политика конфиденциальности</a>
+          <span class="mx-2 text-line">|</span>
+          <a href="offer.html" class="transition hover:text-brand">Договор оферты</a>
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Кнопка «наверх» (появляется при скролле) -->
+  <button id="to-top" type="button"
+          class="fixed bottom-6 right-6 z-40 hidden h-12 w-12 items-center justify-center rounded-full bg-brand text-white shadow-soft transition hover:bg-brand-dark"
+          aria-label="Наверх">
+    <svg class="h-5 w-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M6 11l6-6 6 6" /></svg>
+  </button>
+
+  <!-- Логика страницы -->
+  <script src="script.js"></script>
+</body>
+</html>

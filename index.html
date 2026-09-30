@@ -3,10 +3,21 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Проекты — веб-разработка и автоматизация</title>
-<meta name="description" content="Портфолио: микросервисный бэкенд на Go, интернет-магазин с оплатой, браузерная игра, парсер данных в Excel, телеграм-бот и ИИ-ассистент по базе знаний.">
-<meta property="og:title" content="Проекты — веб-разработка и автоматизация">
-<meta property="og:description" content="Магазин с оплатой, игра в браузере, парсер в Excel, телеграм-бот и ИИ-ассистент.">
+<title>Разработка ботов, парсинг, автоматизация и ИИ — портфолио</title>
+<meta name="description" content="Делаю телеграм-ботов, парсеры данных, автоматизацию и ИИ-ассистентов по базе знаний. Семь рабочих проектов с кодом, цены и сроки, самозанятый.">
+<link rel="canonical" href="https://rabbit669.github.io/portfolio/">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#2f6fed">
+
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://rabbit669.github.io/portfolio/">
+<meta property="og:title" content="Разработка ботов, парсинг, автоматизация и ИИ — портфолио">
+<meta property="og:description" content="Семь рабочих проектов с кодом: магазин с оплатой, лендинг, микросервисный бэкенд, игра, парсер в Excel, телеграм-бот записи, ИИ-ассистент. Цены от 10 000 ₽.">
+<meta property="og:image" content="https://rabbit669.github.io/portfolio/og-cover.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
 <style>
 :root{--ink:#0f1729;--muted:#66748f;--line:#e3e9f2;--bg:#f7f9fc;--accent:#2f6fed;--card:#fff}
 *{box-sizing:border-box}
@@ -14,8 +25,9 @@ body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system
 a{color:var(--accent)}
 .wrap{max-width:1080px;margin:0 auto;padding:0 20px}
 .hero{padding:60px 0 30px;background:#fff;border-bottom:1px solid var(--line)}
-.hero h1{font-size:clamp(30px,5vw,50px);line-height:1.08;margin:0 0 14px;letter-spacing:-.03em}
+.hero h1{font-size:clamp(28px,4.4vw,46px);line-height:1.1;margin:0 0 14px;letter-spacing:-.03em;max-width:24ch}
 .hero p{font-size:18.5px;color:var(--muted);max-width:62ch;margin:0}
+.hero__cta{display:flex;gap:10px;flex-wrap:wrap;margin-top:24px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:22px;padding:32px 0 56px}
 .card{background:var(--card);border:1px solid var(--line);border-radius:14px;overflow:hidden;display:flex;flex-direction:column;transition:transform .18s ease,box-shadow .18s ease}
 .card:hover{transform:translateY(-3px);box-shadow:0 14px 34px -18px rgba(15,23,41,.35)}
@@ -32,25 +44,51 @@ a{color:var(--accent)}
 .btn:hover{border-color:var(--accent);color:var(--accent)}
 .btn--solid{background:var(--accent);border-color:var(--accent);color:#fff}
 .btn--solid:hover{color:#fff;opacity:.92}
+.btn--big{padding:13px 22px;font-size:16px;border-radius:10px}
 .note{background:#fff;border:1px solid var(--line);border-radius:12px;padding:18px 22px;font-size:15px;color:var(--muted)}
 .note strong{color:var(--ink)}
 .note code{background:#eef2f9;padding:2px 6px;border-radius:5px;font-size:13.5px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
 footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--muted);font-size:14px;background:#fff}
-@media(max-width:600px){.hero{padding:42px 0 24px}.grid{gap:16px;padding:24px 0 42px}}
+
+/* секции: услуги, процесс, контакты */
+.section{padding:52px 0;background:#fff;border-top:1px solid var(--line)}
+.section--tint{background:var(--bg)}
+.section__head{max-width:66ch;margin-bottom:26px}
+.section h2{font-size:clamp(22px,3vw,30px);margin:0 0 10px;letter-spacing:-.02em}
+.section__head p{color:var(--muted);margin:0;font-size:16.5px}
+.prices{display:grid;gap:10px}
+.price{display:grid;grid-template-columns:1fr auto;gap:6px 18px;align-items:baseline;background:#fff;border:1px solid var(--line);border-radius:12px;padding:16px 20px}
+.price__name{font-weight:600;font-size:16px}
+.price__sum{font-weight:700;font-size:16px;white-space:nowrap}
+.price__meta{grid-column:1/-1;color:var(--muted);font-size:14px}
+.steps{counter-reset:s;display:grid;gap:14px;margin:0;padding:0;list-style:none}
+.steps li{counter-increment:s;position:relative;padding-left:52px;color:var(--muted);font-size:15.5px}
+.steps li::before{content:counter(s);position:absolute;left:0;top:-2px;width:34px;height:34px;border-radius:50%;background:var(--accent);color:#fff;display:grid;place-items:center;font-weight:700;font-size:15px}
+.steps strong{color:var(--ink);display:block;font-size:16px;margin-bottom:2px}
+.contact{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:16px}
+.contact__card{background:#fff;border:1px solid var(--line);border-radius:14px;padding:22px 24px}
+.contact__card h3{margin:0 0 8px;font-size:17px}
+.contact__card p{color:var(--muted);font-size:15px;margin:0 0 16px}
+@media(max-width:600px){.hero{padding:42px 0 24px}.grid{gap:16px;padding:24px 0 42px}.section{padding:40px 0}.price{padding:14px 16px}}
 </style>
 </head>
 <body>
 
 <div class="hero">
   <div class="wrap">
-    <h1>Проекты</h1>
-    <p>Шесть работ: два сайта, которые открываются прямо сейчас, микросервисный бэкенд
-       на Go и три разбора Python-проектов — парсер данных, телеграм-бот и ИИ-ассистент
-       по базе знаний.</p>
+    <h1>Делаю телеграм-ботов, парсеры и автоматизацию</h1>
+    <p>Убираю ручную работу: боты вместо звонков и переписки, сбор данных вместо копирования
+       в Excel, автоматизация вместо ручных операций. Ниже — семь рабочих проектов с кодом,
+       цены и сроки.</p>
+    <div class="hero__cta">
+      <a class="btn btn--solid btn--big" href="#contact">Обсудить задачу</a>
+      <a class="btn btn--big" href="#prices">Цены и сроки</a>
+      <a class="btn btn--big" href="#projects">Проекты</a>
+    </div>
   </div>
 </div>
 
-<div class="wrap">
+<div class="wrap" id="projects">
   <div class="note" style="margin-top:26px">
     <strong>Магазин работает в демо-режиме.</strong> Каталог, корзина, кабинет и комьюнити
     работают полностью. А вот оплата на этом хостинге недоступна — и это сделано специально:
@@ -61,17 +99,6 @@ footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--muted);f
 
   <div class="grid">
     <article class="card">
-      <div class="card__cover"><img src="cases/preview/marketplace.svg" alt="Маркетплейс на микросервисах с сагой" loading="lazy"></div>
-      <div class="card__body">
-        <span class="kind">Backend · Go · Микросервисы</span>
-        <h2>Маркетплейс на микросервисах с сагой</h2>
-        <p>Семь сервисов на Go. Оформление заказа — распределённая транзакция с компенсациями: банк отказал, склад откатился сам. Витрина показывает шаги саги в реальном времени.</p>
-        <div class="stack"><span class="chip">Go</span><span class="chip">gRPC</span><span class="chip">PostgreSQL</span><span class="chip">Kafka</span><span class="chip">Redis</span><span class="chip">OpenTelemetry</span><span class="chip">Kubernetes</span></div>
-        <div class="card__actions"><a class="btn btn--solid" href="cases/marketplace.html">Разбор и код ↗</a>
-      <a class="btn" href="https://github.com/rabbit669/marketplace-saga" target="_blank" rel="noopener">GitHub</a></div>
-      </div>
-    </article>
-    <article class="card">
       <div class="card__cover"><img src="ashen/assets/img/og-cover.png" alt="ASHEN — стрит-вир магазин" loading="lazy"></div>
       <div class="card__body">
         <span class="kind">Интернет-магазин</span>
@@ -80,6 +107,28 @@ footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--muted);f
         <div class="stack"><span class="chip">JavaScript</span><span class="chip">Node.js</span><span class="chip">ЮKassa</span><span class="chip">CSS</span></div>
         <div class="card__actions"><a class="btn btn--solid" href="ashen/index.html">Открыть магазин ↗</a>
       <a class="btn" href="ashen/offer.html">Документы</a></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card__cover"><img src="construct/preview.jpg" alt="Лендинг студии Construct" loading="lazy"></div>
+      <div class="card__body">
+        <span class="kind">Лендинг под ТЗ</span>
+        <h2>Лендинг студии «Construct»</h2>
+        <p>Одностраничник с заявкой, юридическими страницами и готовой сборкой Tailwind — открывается двойным кликом, без сборщика и без интернета. Плюс стенд проверки: сборка стилей, линтеры, браузерные тесты.</p>
+        <div class="stack"><span class="chip">HTML</span><span class="chip">CSS</span><span class="chip">JavaScript</span><span class="chip">Tailwind</span></div>
+        <div class="card__actions"><a class="btn btn--solid" href="construct/index.html">Открыть лендинг ↗</a>
+      <a class="btn" href="construct/offer.html">Коммерческое предложение</a></div>
+      </div>
+    </article>
+    <article class="card">
+      <div class="card__cover"><img src="cases/preview/marketplace.svg" alt="Маркетплейс на микросервисах с сагой" loading="lazy"></div>
+      <div class="card__body">
+        <span class="kind">Backend · Go · Микросервисы</span>
+        <h2>Маркетплейс на микросервисах с сагой</h2>
+        <p>Семь сервисов на Go. Оформление заказа — распределённая транзакция с компенсациями: банк отказал, склад откатился сам. Витрина показывает шаги саги в реальном времени.</p>
+        <div class="stack"><span class="chip">Go</span><span class="chip">gRPC</span><span class="chip">PostgreSQL</span><span class="chip">Kafka</span><span class="chip">Redis</span><span class="chip">Kubernetes</span></div>
+        <div class="card__actions"><a class="btn btn--solid" href="cases/marketplace.html">Разбор и код ↗</a>
+      <a class="btn" href="https://github.com/rabbit669/marketplace-saga" target="_blank" rel="noopener">GitHub</a></div>
       </div>
     </article>
     <article class="card">
@@ -128,9 +177,82 @@ footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--muted);f
   </div>
 </div>
 
+<div class="section section--tint" id="prices">
+  <div class="wrap">
+    <div class="section__head">
+      <h2>Что я делаю и сколько это стоит</h2>
+      <p>Цены фиксированные: после уточнения задачи называю точную сумму, она не меняется.
+         В стоимость входят две итерации правок и инструкция по использованию.</p>
+    </div>
+    <div class="prices">
+      <div class="price"><span class="price__name">Телеграм-бот для записи клиентов или приёма заявок</span><span class="price__sum">от 15 000 ₽</span><span class="price__meta">3 рабочих дня · меню, база, уведомления администратору</span></div>
+      <div class="price"><span class="price__name">Бот с напоминаниями клиентам и админ-панелью</span><span class="price__sum">от 20 000 ₽</span><span class="price__meta">4 рабочих дня · напоминания против неявок, отчёты владельцу</span></div>
+      <div class="price"><span class="price__name">Сбор данных с сайта в Excel или Google Sheets</span><span class="price__sum">от 10 000 ₽</span><span class="price__meta">2 рабочих дня · до 5 000 позиций, обход категорий и пагинации</span></div>
+      <div class="price"><span class="price__name">Регулярный сбор данных по расписанию</span><span class="price__sum">от 16 000 ₽</span><span class="price__meta">3 рабочих дня · обновление по таймеру и уведомление в телеграм</span></div>
+      <div class="price"><span class="price__name">ИИ-ассистент, отвечающий по вашим документам</span><span class="price__sum">от 20 000 ₽</span><span class="price__meta">4 рабочих дня · с указанием источников, без выдуманных цифр</span></div>
+      <div class="price"><span class="price__name">Автоматизация между сервисами</span><span class="price__sum">от 12 000 ₽</span><span class="price__meta">3 рабочих дня · API, n8n, Make, Google Apps Script</span></div>
+      <div class="price"><span class="price__name">Юнит-экономика и дашборд в Excel или Google Sheets</span><span class="price__sum">от 10 000 ₽</span><span class="price__meta">2 рабочих дня · маржа по товарам и направлениям, графики</span></div>
+      <div class="price"><span class="price__name">Чистка и сведение данных, регулярный отчёт</span><span class="price__sum">от 10 000 ₽</span><span class="price__meta">2 рабочих дня · дубли, форматы, контроль качества данных</span></div>
+      <div class="price"><span class="price__name">Починка и доработка существующего бота или скрипта</span><span class="price__sum">от 10 000 ₽</span><span class="price__meta">2 рабочих дня · сначала диагностика, потом правки</span></div>
+      <div class="price"><span class="price__name">Интернет-магазин или лендинг с онлайн-оплатой</span><span class="price__sum">от 40 000 ₽</span><span class="price__meta">от 7 рабочих дней · каталог, корзина, ЮKassa, чеки по 54-ФЗ</span></div>
+    </div>
+    <div class="note" style="margin-top:20px">
+      <strong>Если задача не подходит ни под одну строку</strong> — напишите, посчитаю отдельно.
+      Если задача выходит за мои компетенции, скажу об этом прямо и не буду брать деньги.
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="wrap">
+    <div class="section__head">
+      <h2>Как проходит работа</h2>
+      <p>Никаких «сделаю красиво» и пропаданий на неделю: каждый этап виден.</p>
+    </div>
+    <ol class="steps">
+      <li><strong>Уточняем задачу</strong>Вы описываете, что нужно. Я задаю вопросы и письменно фиксирую результат: что именно вы получите.</li>
+      <li><strong>Называю цену и срок</strong>Фиксированную сумму и дату сдачи, с запасом. В цену входят две итерации правок по согласованному объёму.</li>
+      <li><strong>Показываю промежуточный результат</strong>В середине работы присылаю, что уже готово. Если что-то нужно поменять — это лучший момент.</li>
+      <li><strong>Сдаю с инструкцией</strong>Объясняю, как пользоваться и что можно менять самостоятельно, без программиста.</li>
+      <li><strong>Остаюсь на связи 30 дней</strong>Исправляю ошибки по согласованному объёму бесплатно. Исходники передаю — инструмент ваш.</li>
+    </ol>
+  </div>
+</div>
+
+<div class="section section--tint" id="contact">
+  <div class="wrap">
+    <div class="section__head">
+      <h2>Связаться</h2>
+      <p>Опишите задачу в двух-трёх предложениях — скажу, реально ли это сделать,
+         сколько будет стоить и сколько займёт. Консультация бесплатная.</p>
+    </div>
+    <div class="contact">
+      <div class="contact__card">
+        <h3>Telegram</h3>
+        <p>Самый быстрый способ: отвечаю в течение дня, вопросы можно задавать текстом.</p>
+        <a class="btn btn--solid" href="https://t.me/s_t_e_p_a_n_o_v_69">Написать в Telegram</a>
+      </div>
+      <div class="contact__card">
+        <h3>Работа через биржу</h3>
+        <p>Если удобнее с договором и защитой платежа — работаю через Безопасную сделку
+           на FL.ru. Там же отзывы и история заказов.</p>
+        <a class="btn" href="https://www.fl.ru/users/stepanov6999/">Профиль на FL.ru ↗</a>
+      </div>
+      <div class="contact__card">
+        <h3>Документы и оплата</h3>
+        <p>Самозанятый: работаю по договору, выдаю чек. Подходит для юрлиц и ИП —
+           закрывающие документы предоставляю.</p>
+        <a class="btn" href="#projects">Сначала посмотреть проекты</a>
+      </div>
+    </div>
+  </div>
+</div>
+
 <footer>
   <div class="wrap">
-    <p>Бэкенд на Go без фреймворков — только стандартная библиотека, gRPC и драйверы баз. Сайты — на чистом HTML, CSS и JavaScript. Python-проекты — на стандартной библиотеке и нескольких пакетах.</p>
+    <p>Сайты — на чистом HTML, CSS и JavaScript без фреймворков. Бэкенд — на Go, без фреймворков:
+       стандартная библиотека, gRPC и драйверы баз. Python-проекты — на стандартной библиотеке
+       и нескольких пакетах. Самозанятый, работа по договору с чеком.</p>
   </div>
 </footer>
 

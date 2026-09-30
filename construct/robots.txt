@@ -1,0 +1,7 @@
+# Construct — сайты и лендинги по вашему ТЗ
+# Домен ниже нужно заменить, если сайт будет опубликован на другом адресе.
+
+User-agent: *
+Allow: /
+
+Sitemap: https://construct.ru/sitemap.xml
