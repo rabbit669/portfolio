@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Проекты — веб-разработка и автоматизация</title>
-<meta name="description" content="Портфолио: интернет-магазин с оплатой, браузерная игра, парсер данных в Excel, телеграм-бот и ИИ-ассистент по базе знаний.">
+<meta name="description" content="Портфолио: микросервисный бэкенд на Go, интернет-магазин с оплатой, браузерная игра, парсер данных в Excel, телеграм-бот и ИИ-ассистент по базе знаний.">
 <meta property="og:title" content="Проекты — веб-разработка и автоматизация">
 <meta property="og:description" content="Магазин с оплатой, игра в браузере, парсер в Excel, телеграм-бот и ИИ-ассистент.">
 <style>
@@ -44,8 +44,9 @@ footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--muted);f
 <div class="hero">
   <div class="wrap">
     <h1>Проекты</h1>
-    <p>Пять работ: два сайта, которые открываются прямо сейчас, и три разбора с кодом —
-       парсер данных, телеграм-бот и ИИ-ассистент по базе знаний.</p>
+    <p>Шесть работ: два сайта, которые открываются прямо сейчас, микросервисный бэкенд
+       на Go и три разбора Python-проектов — парсер данных, телеграм-бот и ИИ-ассистент
+       по базе знаний.</p>
   </div>
 </div>
 
@@ -59,6 +60,17 @@ footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--muted);f
   </div>
 
   <div class="grid">
+    <article class="card">
+      <div class="card__cover"><img src="cases/preview/marketplace.svg" alt="Маркетплейс на микросервисах с сагой" loading="lazy"></div>
+      <div class="card__body">
+        <span class="kind">Backend · Go · Микросервисы</span>
+        <h2>Маркетплейс на микросервисах с сагой</h2>
+        <p>Семь сервисов на Go. Оформление заказа — распределённая транзакция с компенсациями: банк отказал, склад откатился сам. Витрина показывает шаги саги в реальном времени.</p>
+        <div class="stack"><span class="chip">Go</span><span class="chip">gRPC</span><span class="chip">PostgreSQL</span><span class="chip">Kafka</span><span class="chip">Redis</span><span class="chip">OpenTelemetry</span><span class="chip">Kubernetes</span></div>
+        <div class="card__actions"><a class="btn btn--solid" href="cases/marketplace.html">Разбор и код ↗</a>
+      <a class="btn" href="https://github.com/rabbit669/marketplace-saga" target="_blank" rel="noopener">GitHub</a></div>
+      </div>
+    </article>
     <article class="card">
       <div class="card__cover"><img src="ashen/assets/img/og-cover.png" alt="ASHEN — стрит-вир магазин" loading="lazy"></div>
       <div class="card__body">
@@ -118,7 +130,7 @@ footer{border-top:1px solid var(--line);padding:26px 0 44px;color:var(--muted);f
 
 <footer>
   <div class="wrap">
-    <p>HTML, CSS и JavaScript без фреймворков. Python-проекты — на стандартной библиотеке и нескольких пакетах.</p>
+    <p>Бэкенд на Go без фреймворков — только стандартная библиотека, gRPC и драйверы баз. Сайты — на чистом HTML, CSS и JavaScript. Python-проекты — на стандартной библиотеке и нескольких пакетах.</p>
   </div>
 </footer>
 

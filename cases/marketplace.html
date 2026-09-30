@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Маркетплейс на микросервисах с сагой — разбор проекта</title>
+<meta name="description" content="Семь сервисов на Go: сага с компенсациями, transactional outbox, идемпотентность, трассировка сквозь gRPC и Kafka.">
+<style>
+:root{--ink:#0f1729;--muted:#66748f;--line:#e3e9f2;--bg:#f7f9fc;--accent:#2f6fed;--card:#fff}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.65 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}
+a{color:var(--accent)}
+.wrap{max-width:880px;margin:0 auto;padding:0 20px}
+header.top{border-bottom:1px solid var(--line);background:#fff}
+header.top .wrap{display:flex;align-items:center;justify-content:space-between;height:64px;gap:16px}
+.brand{font-weight:700;text-decoration:none;color:var(--ink);white-space:nowrap}
+.crumbs{font-size:14px;color:var(--muted)}
+.crumbs a{color:var(--muted);text-decoration:none}
+.crumbs a:hover{color:var(--accent)}
+h1{font-size:clamp(25px,4vw,38px);line-height:1.16;margin:34px 0 10px;letter-spacing:-.02em}
+.tag{display:inline-block;font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);font-weight:700}
+.lead{font-size:18px;color:var(--muted);margin:0 0 22px;max-width:64ch}
+.cover{border:1px solid var(--line);border-radius:12px;overflow:hidden;background:#fff;margin:22px 0}
+.cover img{display:block;width:100%;height:auto}
+.actions{display:flex;gap:10px;flex-wrap:wrap;margin:18px 0 6px}
+.btn{display:inline-block;padding:11px 18px;border-radius:9px;border:1px solid var(--line);background:#fff;color:var(--ink);text-decoration:none;font-size:15px;font-weight:500}
+.btn:hover{border-color:var(--accent);color:var(--accent)}
+.btn--solid{background:var(--accent);border-color:var(--accent);color:#fff}
+.btn--solid:hover{color:#fff;opacity:.9}
+.stack{display:flex;flex-wrap:wrap;gap:6px;margin:16px 0 26px}
+.chip{font-size:12.5px;padding:4px 10px;border:1px solid var(--line);border-radius:999px;background:#fff;color:var(--muted)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:22px;margin:20px 0}
+.card h2{margin:0 0 12px;font-size:19px}
+article h2{font-size:22px;margin:32px 0 10px;letter-spacing:-.01em}
+article h3{font-size:18px;margin:22px 0 8px}
+article p{margin:10px 0}
+article ul{margin:10px 0;padding-left:22px}
+article li{margin:5px 0}
+article code{background:#eef2f9;padding:2px 6px;border-radius:5px;font-size:14px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+pre.code{background:#0f1729;color:#e6edf3;padding:16px 18px;border-radius:10px;overflow-x:auto;font-size:13.5px;line-height:1.6;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap}
+.md-table{width:100%;border-collapse:collapse;margin:14px 0;font-size:15px;background:#fff}
+.md-table th,.md-table td{border:1px solid var(--line);padding:9px 12px;text-align:left;vertical-align:top}
+.md-table th{background:#f1f5fb;font-weight:600}
+blockquote{margin:14px 0;padding:10px 16px;border-left:3px solid var(--accent);background:#fff;color:var(--muted)}
+.shots{display:grid;grid-template-columns:repeat(auto-fit,minmax(250px,1fr));gap:14px}
+.shot{margin:0;border:1px solid var(--line);border-radius:10px;overflow:hidden;background:#fff}
+.shot img{display:block;width:100%;height:auto}
+.shot figcaption{padding:8px 12px;font-size:13.5px;color:var(--muted);border-top:1px solid var(--line)}
+.tree{list-style:none;padding:0;margin:0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13.5px}
+.tree li{display:flex;justify-content:space-between;gap:12px;padding:4px 0;border-bottom:1px dashed var(--line)}
+.tree__dir{font-weight:700;color:var(--accent)}
+.tree__size{color:var(--muted);flex:none}
+details.artifact{margin:18px 0;background:#fff;border:1px solid var(--line);border-radius:12px;padding:14px 18px}
+details.artifact summary{cursor:pointer;font-weight:600;color:var(--accent)}
+details.artifact pre{margin-top:12px}
+footer{border-top:1px solid var(--line);margin-top:44px;padding:26px 0 46px;color:var(--muted);font-size:14px}
+footer a{color:var(--muted)}
+@media(max-width:600px){.wrap{padding:0 16px}.card{padding:18px}header.top .wrap{height:56px}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="../index.html">Портфолио</a>
+    <nav class="crumbs"><a href="../index.html">Все проекты</a> · разбор</nav>
+  </div>
+</header>
+
+<div class="wrap">
+  <p class="tag" style="margin-top:30px">Backend · Go · Микросервисы</p>
+  <h1>Маркетплейс на микросервисах с сагой</h1>
+  <p class="lead">Семь сервисов на Go. Оформление заказа — распределённая транзакция с компенсациями: если банк отказывает, склад откатывается сам. Витрина показывает шаги саги в реальном времени, поэтому откат видно, а не приходится верить на слово.</p>
+
+  <div class="cover"><img src="preview/marketplace.svg" alt="Маркетплейс на микросервисах с сагой"></div>
+
+  <div class="actions">
+    <a class="btn btn--solid" href="https://github.com/rabbit669/marketplace-saga" target="_blank" rel="noopener">Код на GitHub ↗</a>
+    <a class="btn" href="#arhitektura">Архитектура</a>
+    <a class="btn" href="../index.html">← Все проекты</a>
+  </div>
+
+  <div class="stack"><span class="chip">Go</span><span class="chip">gRPC</span><span class="chip">PostgreSQL 16</span><span class="chip">Kafka</span><span class="chip">Redis</span><span class="chip">OpenTelemetry</span><span class="chip">Prometheus</span><span class="chip">Grafana</span><span class="chip">Jaeger</span><span class="chip">Docker</span><span class="chip">Kubernetes</span></div>
+
+  <article>
+    <h2>Что это</h2>
+    <p>Учебный, но доведённый до конца бэкенд интернет-магазина. Не «сервисы ради сервисов»: каждое разделение здесь закрывает конкретную проблему, и в проекте есть шесть записей о решениях (ADR), где написано, почему выбрано именно так и что рассматривалось вместо.</p>
+    <p>Главная задача, вокруг которой собран весь проект — <strong>оформление заказа</strong>. Это единственное место, где система обязана быть согласованной, хотя данные лежат в четырёх разных базах, а операции выполняют четыре разных сервиса. Оплата, резерв товара и создание заказа должны либо случиться все вместе, либо не случиться вовсе.</p>
+    <p>Именно поэтому витрина — не украшение, а инструмент проверки: она рисует шаги саги и их статусы, так что результат виден глазами.</p>
+
+    <h2 id="arhitektura">Архитектура</h2>
+    <table class="md-table">
+      <thead><tr><th>Сервис</th><th>За что отвечает</th></tr></thead>
+      <tbody>
+        <tr><td><code>gateway</code></td><td>Единственная точка входа: REST наружу, gRPC внутрь. Отдаёт и витрину.</td></tr>
+        <tr><td><code>auth</code></td><td>Регистрация, вход, JWT, refresh-токены.</td></tr>
+        <tr><td><code>catalog</code></td><td>Товары, категории, поиск, пагинация.</td></tr>
+        <tr><td><code>inventory</code></td><td>Остатки и резервы с TTL; фоновый воркер снимает просроченные.</td></tr>
+        <tr><td><code>order</code></td><td>Оркестратор саги оформления заказа.</td></tr>
+        <tr><td><code>payment</code></td><td>Платёжный шлюз-симулятор: одобряет, отказывает, «зависает» по выбору.</td></tr>
+        <tr><td><code>notification</code></td><td>Слушает события Kafka и «отправляет» уведомления.</td></tr>
+      </tbody>
+    </table>
+    <p>Внутри каждого сервиса — порты и адаптеры: домен не знает ни про protobuf, ни про драйвер базы, ни про транспорт. У каждого сервиса своя база, и ни один не ходит в чужую.</p>
+
+    <h2>Три решения, которые определяют проект</h2>
+
+    <h3>1. Сага с компенсациями, а не распределённая транзакция</h3>
+    <p>Двухфазная фиксация потребовала бы координатора и блокировок на всё время оформления — при отказе банка это держит склад запертым. Вместо этого заказ выполняется как последовательность шагов, у каждого из которых есть обратный:</p>
+    <table class="md-table">
+      <thead><tr><th>Шаг</th><th>Откат при провале</th></tr></thead>
+      <tbody>
+        <tr><td><code>reserve_stock</code></td><td><code>release_stock</code> — вернуть резерв на склад</td></tr>
+        <tr><td><code>authorize_payment</code></td><td><code>void_payment</code> — снять заморозку</td></tr>
+        <tr><td><code>capture_payment</code></td><td><em>точка невозврата</em>: деньги списаны, назад нельзя</td></tr>
+        <tr><td><code>commit_stock</code></td><td>после точки невозврата только вперёд</td></tr>
+        <tr><td><code>confirm_order</code></td><td>—</td></tr>
+      </tbody>
+    </table>
+    <p>Шаг, объявленный точкой невозврата, компенсации не имеет. До неё любой сбой означает полный откат; после — система обязана довести заказ до конца. Это не деталь реализации, а граница, которую в коде видно явно: у каждого шага есть флаг, разрешено ли его откатывать.</p>
+    <p>Отдельный случай — <strong>неизвестный исход</strong>. Если оплата не ответила вовремя, неизвестно, списались ли деньги. Проект исходит из того, что «неизвестно» — это отдельное состояние, а не ошибка: вслепую повторять списание нельзя, а вслепую откатывать тоже.</p>
+
+    <h3>2. Transactional outbox вместо «сохранить и отправить»</h3>
+    <p>Заказ меняется в базе и должен породить событие в Kafka. Если писать в базу и в Kafka по отдельности, один из двух шагов обязательно потеряется: процесс упадёт между ними, и система останется в противоречии.</p>
+    <p>Поэтому событие пишется <em>в ту же транзакцию</em>, что и изменение заказа, в таблицу outbox. Отдельный воркер вычитывает её и публикует. Ничего не теряется, потому что публикация больше не отдельный шаг.</p>
+    <p>Плата за это — доставка «как минимум один раз»: одно событие может прийти дважды. Значит, потребитель обязан быть идемпотентным, и в проекте он идемпотентен: повторное событие отсекается по <code>event_id</code>.</p>
+
+    <h3>3. Идемпотентность на границе</h3>
+    <p>Клиент, который не получил ответ на создание заказа, обязан иметь возможность повторить запрос. Ключ идемпотентности и сам заказ создаются <em>в одной транзакции</em> — если бы это были два шага, между ними осталось бы окно, в котором повтор создаёт второй заказ.</p>
+
+    <h2>Наблюдаемость</h2>
+    <p>Трассировка идёт сквозь весь путь: от HTTP-запроса через gRPC в другие сервисы и дальше через Kafka в уведомления. Ключевая тонкость — контекст трассировки сохраняется <strong>в момент создания события</strong>, а не в момент публикации: между ними стоит воркер outbox, и если сохранять трейс при отправке, он потеряет связь с исходным заказом.</p>
+    <p>Кроме этого — метрики Prometheus с готовыми дашбордами Grafana и алертами, и структурные логи с одним набором полей на все сервисы.</p>
+
+    <h2>Что проверено, а не заявлено</h2>
+    <p>Проект собран так, чтобы утверждения из этого текста можно было проверить командой, а не принимать на веру.</p>
+    <table class="md-table">
+      <tbody>
+        <tr><th>Тесты</th><td>410 тестовых функций. Все проходят с детектором гонок (<code>-race</code>).</td></tr>
+        <tr><th>Объём</th><td>123 файла Go, около 43 500 строк, из них около 15 200 — тесты.</td></tr>
+        <tr><th>Нагрузка</th><td>k6 требует p95 ниже 500 мс и p99 ниже 1500 мс на оформлении заказа. На локальном запуске укладывалось в ~420 мс при ~27 заказах в секунду; порог упирался не в сервисы, а в проброс портов контейнера.</td></tr>
+        <tr><th>Отказы</th><td>Проверяются сценарии отказа банка, временной недоступности и исчерпания остатка — с проверкой, что откат действительно произошёл.</td></tr>
+        <tr><th>Развёртывание</th><td>Docker Compose из 13 контейнеров и 22 манифеста Kubernetes, применённых и проверенных на локальном кластере.</td></tr>
+      </tbody>
+    </table>
+
+    <h2>Как запустить</h2>
+<pre class="code"><code>git clone https://github.com/rabbit669/marketplace-saga
+cd marketplace-saga
+cp .env.example .env
+make up          # поднимает стек и открывает витрину
+make test-race   # тесты с детектором гонок
+make k6          # нагрузочный сценарий оформления заказа</code></pre>
+    <p>Демо-доступ: <code>demo@example.com</code> / <code>correct-horse-battery</code>. Способ оплаты выбирается на витрине: обычная карта, карта без денег или недоступный банк.</p>
+
+    <h2>Скриншоты</h2>
+    <div class="shots">
+      <figure class="shot"><img src="marketplace/shop.jpg" alt="Витрина магазина" loading="lazy"><figcaption>Витрина: каталог из сервиса каталога, оформление заказа справа</figcaption></figure>
+      <figure class="shot"><img src="marketplace/cart.jpg" alt="Корзина" loading="lazy"><figcaption>Корзина: суммы считает сервис заказов</figcaption></figure>
+      <figure class="shot"><img src="marketplace/declined.jpg" alt="Откат заказа при отказе банка" loading="lazy"><figcaption>Отказ банка: резерв склада откачен, шаги после точки невозврата не выполнены</figcaption></figure>
+    </div>
+
+    <h2>Честные границы</h2>
+    <p>Это портфолио-проект, а не система в проде, и вот что из этого следует:</p>
+    <ul class="md-list">
+      <li>Нагрузка измерялась на одной машине. Поведение на нескольких физических узлах — в том числе реальное применение сетевых политик между узлами — не проверялось.</li>
+      <li>TLS и Ingress не настроены: gateway публикуется через NodePort. В проде это первое, что нужно закрыть.</li>
+      <li>Платёжный сервис — симулятор с заданными исходами, а не интеграция с банком.</li>
+      <li>Проект не принимал реальный трафик и не проходил проверку на отказоустойчивость под долгой нагрузкой.</li>
+    </ul>
+    <p>Я перечисляю это не для скромности, а потому что границы возможностей важнее списка технологий: они показывают, где заканчивается проверенное и начинается предполагаемое.</p>
+  </article>
+
+  <div class="card">
+    <h2>Структура репозитория</h2>
+    <ul class="tree">
+      <li class="tree__dir"><span>pkg/</span><span class="tree__size">общие библиотеки</span></li>
+      <li><span>pkg/saga/</span><span class="tree__size">движок саги и компенсации</span></li>
+      <li><span>pkg/kafka/</span><span class="tree__size">outbox, дедупликация, трейсы</span></li>
+      <li><span>pkg/postgres/</span><span class="tree__size">подключение, миграции, advisory lock</span></li>
+      <li><span>pkg/ratelimit/</span><span class="tree__size">токен-бакет на Redis (Lua)</span></li>
+      <li><span>pkg/grpcx/</span><span class="tree__size">сервер, клиент, интерсепторы</span></li>
+      <li class="tree__dir"><span>services/</span></li>
+      <li><span>services/order/</span><span class="tree__size">оркестратор саги</span></li>
+      <li><span>services/inventory/</span><span class="tree__size">остатки и резервы</span></li>
+      <li><span>services/payment/</span><span class="tree__size">шлюз-симулятор</span></li>
+      <li><span>services/gateway/</span><span class="tree__size">REST-граница и витрина</span></li>
+      <li><span>docs/adr/</span><span class="tree__size">6 записей о решениях</span></li>
+      <li><span>docs/openapi.yaml</span><span class="tree__size">8 путей</span></li>
+      <li><span>deploy/</span><span class="tree__size">compose + 22 манифеста k8s</span></li>
+      <li><span>test/load/checkout.js</span><span class="tree__size">сценарий k6</span></li>
+    </ul>
+  </div>
+
+  <footer><a href="../index.html">← Вернуться к портфолио</a></footer>
+</div>
+
+</body>
+</html>
